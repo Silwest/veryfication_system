@@ -12,6 +12,7 @@ class Department(models.Model):
 
 class FieldOfStudy(models.Model):
     name = models.CharField(max_length=30, blank=False, null=False, default='Informatyka Stosowana')
+    department = models.ForeignKey(Department, default=1)
 
     class Meta:
         verbose_name_plural = 'Field of studies'
@@ -25,7 +26,7 @@ class FieldOfQuestion(models.Model):
     field_of_study = models.ForeignKey(FieldOfStudy)
 
     def __unicode__(self):
-        return '{1} - {2}'.format(self.field_of_study, self.name)
+        return '%s - %s ' % (self.field_of_study.name, self.name)
 
 
 class Answer(models.Model):
@@ -44,6 +45,7 @@ class Question(models.Model):
     answer_2 = models.ForeignKey(Answer, related_name='answer_2')
     answer_3 = models.ForeignKey(Answer, related_name='answer_3')
     answer_4 = models.ForeignKey(Answer, related_name='answer_4')
+    approved_by_admin = models.BooleanField(default=False, blank=True)
 
     def __unicode__(self):
         return '{1} - {2}'.format(self.field_of_question, self.value)

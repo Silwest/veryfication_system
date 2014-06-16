@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+{% block head-content %}
+    {% for item in field_of_question %}
+        <p>{{ item }}</p>
+    {% endfor %}
+{% endblock %}

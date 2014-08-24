@@ -1,3 +1,4 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
@@ -34,19 +35,24 @@ class Answer(models.Model):
     correct = models.BooleanField(default=False)
 
     def __unicode__(self):
-        return '%s - %s ' % (self.id, self.value)
+        return '%s' % self.value
 
 
 class Question(models.Model):
     question_number = models.IntegerField(default=0, blank=False, null=False)
     field_of_question = models.ForeignKey(FieldOfQuestion)
-    value = models.CharField(max_length=400, blank=False, null=False, default='Put you question here!')
+    value = models.CharField(max_length=255, unique=True, blank=False, null=False, default='Put you question here!')
     image = models.ImageField(upload_to='attachments', blank=True, null=True)
-    answer_1 = models.ForeignKey(Answer, related_name='answer_1', blank=True, null=True)
-    answer_2 = models.ForeignKey(Answer, related_name='answer_2', blank=True, null=True)
-    answer_3 = models.ForeignKey(Answer, related_name='answer_3', blank=True, null=True)
-    answer_4 = models.ForeignKey(Answer, related_name='answer_4', blank=True, null=True)
+    answer_1 = models.ForeignKey(Answer, related_name='A', blank=True, null=True)
+    answer_2 = models.ForeignKey(Answer, related_name='B', blank=True, null=True)
+    answer_3 = models.ForeignKey(Answer, related_name='C', blank=True, null=True)
+    answer_4 = models.ForeignKey(Answer, related_name='D', blank=True, null=True)
     approved_by_admin = models.BooleanField(default=False, blank=True)
+    is_prepared = models.BooleanField(default=False, blank=True)
 
     def __unicode__(self):
         return '%s - %s ' % (self.field_of_question, self.value)
+
+
+class UserProfile(AbstractUser):
+    question_prepared = models.ManyToManyField(Question, blank=True, null=True)

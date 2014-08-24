@@ -1,5 +1,5 @@
 from django.contrib import admin
-from mgr.models import Department, FieldOfStudy, Question, Answer, FieldOfQuestion
+from mgr.models import Department, FieldOfStudy, Question, Answer, FieldOfQuestion, UserProfile
 
 
 class DepartmentAdmin(admin.ModelAdmin):
@@ -23,5 +23,10 @@ admin.site.register(Answer, AnswerAdmin)
 
 
 class QuestionAdmin(admin.ModelAdmin):
-    pass
+    list_filter = ['is_prepared', 'approved_by_admin']
 admin.site.register(Question, QuestionAdmin)
+
+
+class UserProfileAdmin(admin.ModelAdmin):
+    filter_horizontal = ["question_prepared"]
+admin.site.register(UserProfile, UserProfileAdmin)

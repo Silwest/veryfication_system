@@ -10,7 +10,9 @@
     </facet>
   </component>
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$" />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/media/bower_components" />
+    </content>
     <orderEntry type="jdk" jdkName="Python 2.7.6 virtualenv at C:\Users\sg0217297\Virtual_Environment_Django_1.7" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

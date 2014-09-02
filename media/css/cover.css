@@ -231,3 +231,6 @@ nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
     width: 100%;
     color: white;
  }
+label{
+    color: #ffffff;
+}

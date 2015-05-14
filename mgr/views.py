@@ -11,6 +11,7 @@ from mgr.forms import QuestionForm
 from mgr.models import Department, FieldOfStudy, FieldOfQuestion, Question, Answer, UserProfile
 from django.conf import settings
 
+
 @login_required
 def main_page(request):
     # print load_backends(settings.AUTHENTICATION_BACKENDS)
@@ -38,36 +39,47 @@ def choose_department(request):
 @login_required()
 def show_field_of_question(request, field_of_study_id):
     field_of_question = FieldOfQuestion.objects.filter(field_of_study__id=field_of_study_id)
-    ##
-    xdata = ["Apple", "Apricot", "Avocado", "Banana", "Boysenberries", "Blueberries", "Dates", "Grapefruit", "Kiwi", "Lemon"]
-    ydata = [52, 48, 160, 94, 75, 71, 490, 82, 46, 17]
-    chartdata = {'x': xdata, 'y': ydata}
-    charttype = "pieChart"
-    chartcontainer = 'piechart_container'
-    # data = {
-    #     'charttype': charttype,
-    #     'chartdata': chartdata,
-    #     'chartcontainer': chartcontainer,
-    #     'extra': {
-    #         'x_is_date': False,
-    #         'x_axis_format': '',
-    #         'tag_script_js': True,
-    #         'jquery_on_ready': False,
-    #     }
-    # }
-    ##
-    return render_to_response('mgr/field_of_question.html', {
-        'field_of_question': field_of_question,
-        'charttype': charttype,
-        'chartdata': chartdata,
-        'chartcontainer': chartcontainer,
+    questions_for_field = []
+    for question_field in field_of_question:
+        questions = Question.objects.filter(field_of_question=question_field)
+        questions_approved = len(questions.filter(approved_by_admin=True))
+        questions_prepared = len(questions.filter(is_prepared=True))
+        questions_not_ready = len(questions.filter(is_prepared=False, approved_by_admin=False))
+        dictionary = {
+            'field_of_study': question_field.name,
+            'questions_not_ready': questions_not_ready,
+            'questions_approved': questions_approved,
+            'questions_prepared': questions_prepared,
+        }
+        questions_for_field.append(dictionary)
+    print questions_for_field
+    x_data = ['Opracowane', 'Nieopracowane', 'Przygotowane']
+    y_data = []
+    for item in questions_for_field:
+        print item.values
+        y_data.append(item.values()[1:])
+    color_list = ['#98df8a', '#d62728', '#ffbb78']  #opracowane, nieopracowane, przygotowane
+    chart_type = "pieChart"
+    extra_series = {"tooltip": {"y_start": "", "y_end": " pytan"}, 'color': '#FF8aF8'}
+    chart_data_0 = {'x': x_data, 'y': y_data[0], 'extra': extra_series}
+    chart_data_1 = {'x': x_data, 'y': y_data[1], 'extra': extra_series}
+    chart_data_2 = {'x': x_data, 'y': y_data[2], 'extra': extra_series}
+    data = {
+        'chart_type': chart_type,
+        'chart_data_0': chart_data_0,
+        'chart_data_1': chart_data_1,
+        'chart_data_2': chart_data_2,
         'extra': {
             'x_is_date': False,
             'x_axis_format': '',
             'tag_script_js': True,
             'jquery_on_ready': False,
-        }
-    }, RequestContext(request))
+            'chart_attr': {'color': color_list, 'labelType': '"percent"'},
+            'donut': True,
+            # 'showLabels': True,
+        },
+    }
+    return render_to_response('mgr/field_of_question.html', data, RequestContext(request))
 
 
 @login_required()
@@ -80,7 +92,6 @@ def work_on_question(request):
     if request.method == 'POST':
         form = QuestionForm(instance=random_question, data=request.POST)
         if form.is_valid():
-            print request.POST
             answer_2, created = Answer.objects.get_or_create(value=request.POST.get('answer_B'))
             answer_3, created = Answer.objects.get_or_create(value=request.POST.get('answer_C'))
             answer_4, created = Answer.objects.get_or_create(value=request.POST.get('answer_D'))
@@ -91,10 +102,12 @@ def work_on_question(request):
             user.question_prepared.add(obj)
             obj.is_prepared = True
             obj.save()
+            print 'redirect'
+            return redirect('/workonquestion')
     else:
+        print 'not valid'
         form = QuestionForm(instance=random_question)
     questions_done = user.question_prepared.count()
-    print questions_done
     return render_to_response('mgr/work_on_questions.html', {
         'questions_without_answer': questions_without_answer,
         'count_questions': len(questions_to_do_id),
@@ -121,5 +134,5 @@ def load_questions_field_of_question(request, field_of_question_id):
     for number, item in enumerate(question_answer):
         if item[0]:
             correct_answer, created = Answer.objects.get_or_create(value=item[1], correct=True)
-            Question.objects.get_or_create(question_number=number+1, field_of_question=field_of_question, value=item[0], answer_1=correct_answer)
+            Question.objects.get_or_create(question_number=number + 1, field_of_question=field_of_question, value=item[0], answer_1=correct_answer)
     pass

@@ -10,9 +10,7 @@
     </facet>
   </component>
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$">
-      <excludeFolder url="file://$MODULE_DIR$/media/bower_components" />
-    </content>
+    <content url="file://$MODULE_DIR$" />
     <orderEntry type="jdk" jdkName="Python 2.7.6 virtualenv at C:\Users\sg0217297\Virtual_Environment_Django_1.7" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
@@ -20,7 +18,7 @@
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
     <option name="TEMPLATE_FOLDERS">
       <list>
-        <option value="C:\Users\sg0217297\PycharmProjects\veryfication_system\templates" />
+        <option value="$MODULE_DIR$/templates" />
       </list>
     </option>
   </component>

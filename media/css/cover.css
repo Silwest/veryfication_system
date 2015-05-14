@@ -234,3 +234,6 @@ nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
 label{
     color: #ffffff;
 }
+.nvd3.nv-pie text {
+    fill: white !important;
+}

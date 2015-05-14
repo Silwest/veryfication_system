@@ -1,7 +1,54 @@
 {% extends 'base.html' %}
+{% load nvd3_tags %}
+{% load staticfiles %}
 
+{% block links %}
+    {% include_chart_jscss %}
+{% endblock %}
+{% block script %}
+    {% load_chart chart_type chart_data_0 "piechart_container_0" extra %}
+    {% load_chart chart_type chart_data_1 "piechart_container_1" extra %}
+    {% load_chart chart_type chart_data_2 "piechart_container_2" extra %}
+{% endblock %}
+{% block style %}
+    {#    [id^="piechart_container_"]{#}
+    {#        width: 40%;#}
+    {#        float: left;#}
+    {#    }#}
+{% endblock %}
 {% block head-content %}
-    {% for item in field_of_question %}
-        <p>{{ item }}</p>
-    {% endfor %}
+    {#    {% include_container "piechart_container_0" 400 400 %}#}
+    {#    <h2 style="color: #ffffff">Algorytmy i Struktury Danych</h2>#}
+    {#    {% include_container "piechart_container_1" 400 400 %}#}
+    {#    <h2 style="color: #ffffff">System Operacyjny Unix</h2>#}
+    {#    {% include_container "piechart_container_2" 400 400 %}#}
+    <div class="row">
+            <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+{#                {% include_container "piechart_container_0" 400 370 %}#}
+                <div class="caption">
+                    <h3>Matematyka</h3>
+                    <p><a href="#" class="btn btn-primary glyphicon glyphicon-step-forward" role="button"> Rozpocznij test</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+                {% include_container "piechart_container_1" 400 370 %}
+                <div class="caption">
+                    <h3>Algorytmy i Struktury Danych</h3>
+                    <p><a href="#" class="btn btn-primary glyphicon glyphicon-step-forward" role="button"> Rozpocznij test</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+                {% include_container "piechart_container_2" 400 370 %}
+                <div class="caption">
+                    <h3>System Operacyjny Unix</h3>
+                    <p><a href="#" class="btn btn-primary glyphicon glyphicon-step-forward" role="button"> Rozpocznij test</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

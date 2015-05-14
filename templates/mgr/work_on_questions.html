@@ -1,100 +1,126 @@
 {% extends 'base.html' %}
 
 {% block head-content %}
-    <div class="panel panel-primary">
-        <div class="panel-heading">{{ question.question_number }} {{ question.field_of_question }}</div>
-        <div class="panel-body" style="color: #000000">{{ question.value }}</div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-primary">
+                <div class="panel-heading">{{ question.question_number }} {{ question.field_of_question }}</div>
+                <div class="panel-body" style="color: #000000">{{ question.value }}</div>
+            </div>
+        </div>
     </div>
     <form class="form-horizontal" style="margin-bottom: 10px" action="{% url 'mgr.views.work_on_question' %}" id='question_form' method="POST">
         {% csrf_token %}
-        <div class="form-group">
-        {% for hidden in form.hidden_fields %}
-            {{ hidden }}
-        {% endfor %}
-        {% for field in form.visible_fields %}
-            {{ field.label_tag }} {{ field }}
-        {% endfor %}
+        <p>{{ form.errors }}</p>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-4">
+                <div class="form-group">
+                    {% for hidden in form.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+                    {% for field in form.visible_fields %}
+                        {{ field.label_tag }} {{ field }}
+                    {% endfor %}
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="id_answer_1">A:<input class="form-control" id="answer_A" name="answer_A" type="text" readonly="True" value="{{ question.answer_1 }}"></label>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-4">
+                <div class="form-group">
+                    <label for="id_answer_1" style="width: 245.5px">A:<input class="form-control" id="answer_A" name="answer_A" type="text" readonly="True"
+                                                      value="{{ question.answer_1 }}"></label>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="id_answer_2">B:<input class="form-control" id="answer_B" name="answer_B" type="text"></label>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-4">
+                <div class="form-group">
+                    <label for="id_answer_2">B:<input class="form-control" id="answer_B" name="answer_B" type="text"></label>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="id_answer_3">C:<input class="form-control" id="answer_C" name="answer_C" type="text"></label>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-4">
+                <div class="form-group">
+                    <label for="id_answer_3">C:<input class="form-control" id="answer_C" name="answer_C" type="text"></label>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="id_answer_4" style="display: block">D:<input class="form-control" id="answer_D" name="answer_D" type="text"></label>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-4">
+
+                <div class="form-group">
+                    <label for="id_answer_4">D:<input class="form-control" id="answer_D" name="answer_D" type="text"></label>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <button type="button" class="btn btn-primary" id="next_question"><span class="glyphicon glyphicon-refresh"></span> Next question</button>
-            <button type="submit" class="btn btn-success" id="question_prepared_button"><span class="glyphicon glyphicon-ok"></span> Submit</button>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-4">
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary" id="next_question"><span class="glyphicon glyphicon-refresh"></span> Next question</button>
+                    <button type="submit" class="btn btn-success" id="question_prepared_button"><span class="glyphicon glyphicon-ok"></span> Submit</button>
+                </div>
+            </div>
         </div>
     </form>
-
-    <div class="progress">
-        <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="150">
-            <span id="progress_text" style="color: #269abc">0/20</span>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="progress">
+                <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="150">
+                    <span id="progress_text" style="color: #269abc">0/20</span>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}
 {% block script %}
-<script>
-    $(document).ready(function(){
-        var questions_done = {{ questions_done }};
-        var progress = questions_done / 20*100;
-        $('.progress-bar').css({'width': progress + '%', 'aria-valuenow': progress}).attr({'aria-valuenow': progress});
-        $('#progress_text').text(questions_done + '/20');
-        $('#next_question').on('click', function(){
-            location.reload();
-        });
-        $('#question_form').bootstrapValidator({
-            message: 'This field is required!',
-            feedbackIcons: {
-                valid: 'glyphicon glyphicon-ok',
-                invalid: 'glyphicon glyphicon-remove',
-                validating: 'glyphicon glyphicon-refresh'
-            },
-           fields: {
-               answer_B: {
-                   message: 'Wpisz przykładową odpowiedz!',
-                   validators: {
-                       notEmpty: {
-                           message: 'To pole nie może byc puste!'
-                       }
-                   }
-               },
-               answer_C: {
-                   message: 'Wpisz przykładową odpowiedz!',
-                   validators: {
-                       notEmpty: {
-                           message: 'To pole nie może byc puste!'
-                       }
-                   }
-               },
-               answer_D: {
-                   message: 'Wpisz przykładową odpowiedz!',
-                   validators: {
-                       notEmpty: {
-                           message: 'To pole nie może byc puste!'
-                       }
-                   }
-               }
-           }
-        });
-        var answer_1 = "{{ question.answer_1 }}";
-        if(answer_1.length > 70)
-        {
-            $('#answer_A').replaceWith('<textarea class="form-control" id="answer_A" name="answer_A" type="text" readonly="True">{{ question.answer_1 }}</textarea>')
-        }
-    })
-</script>
-{% endblock %}
-{% block style %}
-.form-control{
-    width: 450px;
-    display: inline;
-}
-
+    <script>
+        $(document).ready(function () {
+            var questions_done = {{ questions_done }};
+            var progress = questions_done / 20 * 100;
+            $('.progress-bar').css({'width': progress + '%', 'aria-valuenow': progress}).attr({'aria-valuenow': progress});
+            $('#progress_text').text(questions_done + '/20');
+            $('#next_question').on('click', function () {
+                location.reload();
+            });
+            $('#question_form').bootstrapValidator({
+                message: 'This field is required!',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    answer_B: {
+                        message: 'Wpisz przykładową odpowiedz!',
+                        validators: {
+                            notEmpty: {
+                                message: 'To pole nie może byc puste!'
+                            }
+                        }
+                    },
+                    answer_C: {
+                        message: 'Wpisz przykładową odpowiedz!',
+                        validators: {
+                            notEmpty: {
+                                message: 'To pole nie może byc puste!'
+                            }
+                        }
+                    },
+                    answer_D: {
+                        message: 'Wpisz przykładową odpowiedz!',
+                        validators: {
+                            notEmpty: {
+                                message: 'To pole nie może byc puste!'
+                            }
+                        }
+                    }
+                }
+            });
+            var answer_1 = "{{ question.answer_1 }}";
+            if (answer_1.length > 32) {
+                $('#answer_A').replaceWith('<textarea class="form-control" id="answer_A" name="answer_A" type="text" readonly="True" style="width: 450px; display:inline">{{ question.answer_1 }}</textarea>')
+            }
+        })
+    </script>
 {% endblock %}

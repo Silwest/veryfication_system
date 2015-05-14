@@ -25,6 +25,7 @@ class FieldOfStudy(models.Model):
 class FieldOfQuestion(models.Model):
     name = models.CharField(max_length=40, blank=False, null=False, default='Dziedzina pytania')
     field_of_study = models.ForeignKey(FieldOfStudy)
+    number_of_questions = models.IntegerField(default=0, blank=False, null=True)
 
     def __unicode__(self):
         return '%s - %s ' % (self.field_of_study.name, self.name)

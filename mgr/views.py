@@ -1,20 +1,15 @@
 import codecs
 import random
-import datetime
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
-from social.backends.utils import load_backends
-import time
 from mgr.forms import QuestionForm
 from mgr.models import Department, FieldOfStudy, FieldOfQuestion, Question, Answer, UserProfile
-from django.conf import settings
 
 
 @login_required
 def main_page(request):
-    # print load_backends(settings.AUTHENTICATION_BACKENDS)
     return render_to_response('main_page.html', {}, RequestContext(request))
 
 
@@ -84,13 +79,31 @@ def show_field_of_question(request, field_of_study_id):
 
 @login_required()
 def work_on_question(request):
+    user = UserProfile.objects.get(id=request.user.id)
     questions_without_answer = Question.objects.filter(approved_by_admin=False, is_prepared=False)
     questions_to_do_id = [question_id.id for question_id in questions_without_answer]
-    random_id = random.choice(questions_to_do_id)
-    random_question = Question.objects.get(id=random_id)
+    if questions_to_do_id:
+        random_id = random.choice(questions_to_do_id)
+        random_question = Question.objects.get(id=random_id)
+        form = QuestionForm(instance=random_question)
+    questions_done = user.question_prepared.count()
+    form = random_question = None
+    return render_to_response('mgr/work_on_questions.html', {
+        'questions_without_answer': questions_without_answer,
+        'count_questions': len(questions_to_do_id),
+        'form': form,
+        'question': random_question,
+        'questions_done': questions_done,
+    }, RequestContext(request))
+
+
+@login_required()
+def save_question(request, question_id):
     user = UserProfile.objects.get(id=request.user.id)
+    question = Question.objects.get(id=question_id)
+
     if request.method == 'POST':
-        form = QuestionForm(instance=random_question, data=request.POST)
+        form = QuestionForm(instance=question, data=request.POST)
         if form.is_valid():
             answer_2, created = Answer.objects.get_or_create(value=request.POST.get('answer_B'))
             answer_3, created = Answer.objects.get_or_create(value=request.POST.get('answer_C'))
@@ -99,22 +112,10 @@ def work_on_question(request):
             obj.answer_2 = answer_2
             obj.answer_3 = answer_3
             obj.answer_4 = answer_4
-            user.question_prepared.add(obj)
             obj.is_prepared = True
             obj.save()
-            print 'redirect'
+            user.question_prepared.add(obj)
             return redirect('/workonquestion')
-    else:
-        print 'not valid'
-        form = QuestionForm(instance=random_question)
-    questions_done = user.question_prepared.count()
-    return render_to_response('mgr/work_on_questions.html', {
-        'questions_without_answer': questions_without_answer,
-        'count_questions': len(questions_to_do_id),
-        'form': form,
-        'question': random_question,
-        'questions_done': questions_done,
-    }, RequestContext(request))
 
 
 @login_required()

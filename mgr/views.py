@@ -38,7 +38,7 @@ def show_field_of_question(request, field_of_study_id):
     for question_field in field_of_question:
         questions = Question.objects.filter(field_of_question=question_field)
         questions_approved = len(questions.filter(approved_by_admin=True))
-        questions_prepared = len(questions.filter(is_prepared=True))
+        questions_prepared = len(questions.filter(is_prepared=True, approved_by_admin=False))
         questions_not_ready = len(questions.filter(is_prepared=False, approved_by_admin=False))
         dictionary = {
             'field_of_study': question_field.name,
@@ -47,13 +47,12 @@ def show_field_of_question(request, field_of_study_id):
             'questions_prepared': questions_prepared,
         }
         questions_for_field.append(dictionary)
-    print questions_for_field
     x_data = ['Opracowane', 'Nieopracowane', 'Przygotowane']
     y_data = []
     for item in questions_for_field:
         print item.values
         y_data.append(item.values()[1:])
-    color_list = ['#98df8a', '#d62728', '#ffbb78']  #opracowane, nieopracowane, przygotowane
+    color_list = ['#98df8a', '#d62728', '#ffbb78']  # opracowane, nieopracowane, przygotowane
     chart_type = "pieChart"
     extra_series = {"tooltip": {"y_start": "", "y_end": " pytan"}, 'color': '#FF8aF8'}
     chart_data_0 = {'x': x_data, 'y': y_data[0], 'extra': extra_series}
@@ -86,8 +85,9 @@ def work_on_question(request):
         random_id = random.choice(questions_to_do_id)
         random_question = Question.objects.get(id=random_id)
         form = QuestionForm(instance=random_question)
+    else:
+        form = random_question = None
     questions_done = user.question_prepared.count()
-    form = random_question = None
     return render_to_response('mgr/work_on_questions.html', {
         'questions_without_answer': questions_without_answer,
         'count_questions': len(questions_to_do_id),
@@ -98,10 +98,9 @@ def work_on_question(request):
 
 
 @login_required()
-def save_question(request, question_id):
+def save_question(request, question_id, accept=False):
     user = UserProfile.objects.get(id=request.user.id)
     question = Question.objects.get(id=question_id)
-
     if request.method == 'POST':
         form = QuestionForm(instance=question, data=request.POST)
         if form.is_valid():
@@ -113,9 +112,31 @@ def save_question(request, question_id):
             obj.answer_3 = answer_3
             obj.answer_4 = answer_4
             obj.is_prepared = True
+            if accept == "True":
+                obj.approved_by_admin = True
             obj.save()
-            user.question_prepared.add(obj)
-            return redirect('/workonquestion')
+            if accept == "False":
+                user.question_prepared.add(obj)
+                return redirect('/workonquestion')
+            return redirect('/acceptquestion')
+
+
+@login_required()
+@staff_member_required
+def accept_question(request):
+    answered_questions = Question.objects.filter(approved_by_admin=False, is_prepared=True)
+    questions_to_do_id = [question_id.id for question_id in answered_questions]
+    if questions_to_do_id:
+            random_question_id = random.choice(questions_to_do_id)
+            random_question = Question.objects.get(id=random_question_id)
+            form = QuestionForm(instance=random_question)
+    else:
+        form = random_question = None
+    return render_to_response('admin/accept_question.html',
+                              {
+                                  'form': form,
+                                  'question': random_question,
+                              }, RequestContext(request))
 
 
 @login_required()

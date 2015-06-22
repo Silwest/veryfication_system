@@ -56,4 +56,4 @@ class Question(models.Model):
 
 
 class UserProfile(AbstractUser):
-    question_prepared = models.ManyToManyField(Question, blank=True, null=True)
+    question_prepared = models.ManyToManyField(Question, blank=True, related_name="prepared_by")

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block head-content %}
+    {% if question %}
+        {% for user in question.prepared_by.all %}
+            <h3>Przygotowane przez:<span class="label label-default">{{ user }}</span></h3>
+        {% endfor %}
+        <form class="form-horizontal" style="margin-bottom: 10px" action="{% url 'mgr.views.save_question' question.id "True" %}" id='question_form' method="POST">
+            {% csrf_token %}
+            {% include "mgr/question_form.html" %}
+            <div class="row">
+                <div class="col-md-10 col-md-offset-4">
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary" id="next_question"><span class="glyphicon glyphicon-refresh"></span> Next question</button>
+                        <button type="submit" class="btn btn-success" id="question_prepared_button"><span class="glyphicon glyphicon-ok"></span> Accept</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    {% else %}
+        <h3>Nie ma przygotowanych pytan!</h3>
+    {% endif %}
+{% endblock %}
+
+{% block script %}
+    <script>
+        $(document).ready(function () {
+            $('#next_question').on('click', function () {
+                location.reload(true);
+            })
+        });
+    </script>
+{% endblock %}

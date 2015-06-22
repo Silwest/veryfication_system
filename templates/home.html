@@ -12,7 +12,7 @@
     <link href="{% static "css/bootstrap-social.css" %}" rel="stylesheet">
     <link href="{% static "css/font-awesome.min.css" %}" rel="stylesheet">
     <link href="{% static "css/bootstrapValidator.min.css" %}" rel="stylesheet">
-    <link href="{%  static "css/cover.css" %}" rel="stylesheet">
+    <link href="{% static "css/cover.css" %}" rel="stylesheet">
 
     <script src="{% static "js/jquery-1.11.2.min.js" %}"></script>
     <script src="{% static "js/bootstrap.min.js" %}"></script>
@@ -53,55 +53,60 @@
         });
     </script>
     {% block script %}{% endblock %}
-<style>
-    {% block style %}{% endblock %}
-svg text {
-    fill: white;
-}
-nv-pieLabels text {
-    fill: white !important;
-}
-</style>
+    <style>
+        {% block style %}{% endblock %}
+        svg text {
+            fill: white;
+        }
+
+        nv-pieLabels text {
+            fill: white !important;
+        }
+    </style>
 </head>
 <body>
 <!-- #### NAV-BAR #### -->
-    <div class="site-wrapper">
-        <div class="site-wrapper-inner">
-            <div class="cover-container">
-                <div class="masthead">
-                    <div class="inner">
-                        <h3 class="masthead-brand"><img id="logo" src="{% static "img/logoAgh.png" %}" style="margin-top: -10px;"> <a href="https://www.linkedin.com/pub/sylwester-tomaszewski/89/79a/828" id="creator">Silwest</a></h3>
-                        <ul class="nav masthead-nav">
-                            <li><a href="{% url 'mgr.views.main_page' %}">Home</a></li>
-                            <li><a href="{% url 'mgr.views.all_questions' %}">Baza pytań</a></li>
-                            <li><a href="{% url 'mgr.views.work_on_question' %}">Opracuj pytania</a></li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.get_full_name }}<b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Statystyki</a></li>
-                                    <li><a href="#">Opcje</a></li>
-                                    <li><a href="#">Zgloś bląd</a></li>
-                                    {% if user.is_staff %}<li><a href="/admin">Admin</a></li>{% endif %}
-                                    <li class="divider"></li>
-                                    <li><a href="/logout">Wyloguj</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
+<div class="site-wrapper">
+    <div class="site-wrapper-inner">
+        <div class="cover-container">
+            <div class="masthead">
+                <div class="inner">
+                    <h3 class="masthead-brand"><img id="logo" src="{% static "img/logoAgh.png" %}" style="margin-top: -10px;"> <a
+                            href="https://www.linkedin.com/pub/sylwester-tomaszewski/89/79a/828" id="creator">Silwest</a></h3>
+                    <ul class="nav masthead-nav">
+                        <li><a href="{% url 'mgr.views.main_page' %}">Home</a></li>
+                        <li><a href="{% url 'mgr.views.all_questions' %}">Baza pytań</a></li>
+                        <li><a href="{% url 'mgr.views.work_on_question' %}">Opracuj pytania</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.get_full_name }}<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Statystyki</a></li>
+                                <li><a href="#">Opcje</a></li>
+                                <li><a href="#">Zgloś bląd</a></li>
+                                {% if user.is_staff %}
+                                    <li><a href="/admin">Admin</a></li>
+                                    <li><a href="{% url 'mgr.views.accept_question' %}">Akceptuj pytania</a></li>
+                                {% endif %}
+                                <li class="divider"></li>
+                                <li><a href="/logout">Wyloguj</a></li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
-                <div class="inner cover">
-                    {% block head-content %}{% endblock %}
-                </div>
+            </div>
+            <div class="inner cover">
+                {% block head-content %}{% endblock %}
             </div>
         </div>
     </div>
-    <div class="mastfoot">
-        <div class="inner">
-            <p>By Silwest</p>
-        </div>
+</div>
+<div class="mastfoot">
+    <div class="inner">
+        <p>By Silwest</p>
     </div>
-    <div class="container">
-        {% block content %}{% endblock %}
-    </div>
+</div>
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
 </body>
 </html>

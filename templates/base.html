@@ -72,8 +72,9 @@
                             <ul class="dropdown-menu">
                                 <li><a href="#">Statystyki</a></li>
                                 <li><a href="#">Opcje</a></li>
-                                <li><a href="#">Zgloś bląd</a></li>
+                                <li><a href="https://github.com/Silwest/veryfication_system/issues">Zgloś bląd</a></li>
                                 {% if user.is_staff %}
+                                    <li><a href="{% url 'mgr.views.accept_question' %}">Akceptuj pytania</a></li>
                                     <li><a href="/admin">Admin</a></li>{% endif %}
                                 <li class="divider"></li>
                                 <li><a href="/logout">Wyloguj</a></li>

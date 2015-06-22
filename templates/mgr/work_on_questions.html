@@ -1,64 +1,15 @@
 {% extends 'base.html' %}
 
 {% block head-content %}
-    {% if form %}
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">{{ question.question_number }} {{ question.field_of_question }}</div>
-                    <div class="panel-body" style="color: #000000">{{ question.value }}</div>
-                </div>
-            </div>
-        </div>
-        <form class="form-horizontal" style="margin-bottom: 10px" action="{% url 'mgr.views.save_question' question.id %}" id='question_form' method="POST">
+    {% if question %}
+        <form class="form-horizontal" style="margin-bottom: 10px" action="{% url 'mgr.views.save_question' question.id "False" %}" id='question_form' method="POST">
             {% csrf_token %}
-            <p>{{ form.errors }}</p>
+            {% include "mgr/question_form.html" %}
             <div class="row">
                 <div class="col-md-10 col-md-offset-4">
                     <div class="form-group">
-                        {% for hidden in form.hidden_fields %}
-                            {{ hidden }}
-                        {% endfor %}
-                        {% for field in form.visible_fields %}
-                            {{ field.label_tag }} {{ field }}
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-10 col-md-offset-4">
-                    <div class="form-group">
-                        <label for="id_answer_1" style="width: 245.5px">A:<input class="form-control" id="answer_A" name="answer_A" type="text" readonly="True"
-                                                          value="{{ question.answer_1 }}"></label>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-10 col-md-offset-4">
-                    <div class="form-group">
-                        <label for="id_answer_2">B:<input class="form-control" id="answer_B" name="answer_B" type="text"></label>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-10 col-md-offset-4">
-                    <div class="form-group">
-                        <label for="id_answer_3">C:<input class="form-control" id="answer_C" name="answer_C" type="text"></label>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-10 col-md-offset-4">
-
-                    <div class="form-group">
-                        <label for="id_answer_4">D:<input class="form-control" id="answer_D" name="answer_D" type="text"></label>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-10 col-md-offset-4">
-                    <div class="form-group">
-                        <button type="button" class="btn btn-primary" id="next_question"><span class="glyphicon glyphicon-refresh"></span> Next question</button>
+                        <button type="button" class="btn btn-primary" id="next_question"><span class="glyphicon glyphicon-refresh"></span> Next question
+                        </button>
                         <button type="submit" class="btn btn-success" id="question_prepared_button"><span class="glyphicon glyphicon-ok"></span> Submit</button>
                     </div>
                 </div>
@@ -67,7 +18,8 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="progress">
-                    <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="150">
+                    <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0"
+                         aria-valuemax="150">
                         <span id="progress_text" style="color: #269abc">0/20</span>
                     </div>
                 </div>
@@ -119,10 +71,11 @@
                     }
                 }
             });
-            var answer_1 = "{{ question.answer_1 }}";
-            if (answer_1.length > 32) {
-                $('#answer_A').replaceWith('<textarea class="form-control" id="answer_A" name="answer_A" type="text" readonly="True" style="width: 450px; display:inline">{{ question.answer_1 }}</textarea>')
-            }
+{#            var answer_1 = "{{ question.answer_1 }}";#}
+{#            if (answer_1.length > 32) {#}
+{#                $('#answer_A').replaceWith('<textarea class="form-control" id="answer_A" name="answer_A" type="text" readonly="True" style="width: 450px; display:inline">{{ question.answer_1 }}</textarea>')#}
+{#            }#}
         })
+
     </script>
 {% endblock %}

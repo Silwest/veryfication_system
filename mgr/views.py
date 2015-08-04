@@ -35,6 +35,9 @@ def choose_department(request):
 def show_field_of_question(request, field_of_study_id):
     field_of_question = FieldOfQuestion.objects.filter(field_of_study__id=field_of_study_id)
     questions_for_field = []
+    color_list = ['#98df8a', '#d62728', '#ffbb78']  # opracowane, nieopracowane, przygotowane
+    chart_type = "pieChart"
+    extra_series = {"tooltip": {"y_start": "", "y_end": " pytan"}, 'color': '#FF8aF8'}
     for question_field in field_of_question:
         questions = Question.objects.filter(field_of_question=question_field)
         questions_approved = len(questions.filter(approved_by_admin=True))
@@ -47,22 +50,23 @@ def show_field_of_question(request, field_of_study_id):
             'questions_prepared': questions_prepared,
         }
         questions_for_field.append(dictionary)
+    questions_approved = len(Question.objects.filter(field_of_question__in=field_of_question, approved_by_admin=True))
+    questions_prepared = len(Question.objects.filter(field_of_question__in=field_of_question, is_prepared=True, approved_by_admin=False))
+    questions_not_ready = len(Question.objects.filter(field_of_question__in=field_of_question, is_prepared=False, approved_by_admin=False))
     x_data = ['Opracowane', 'Nieopracowane', 'Przygotowane']
-    y_data = []
+    y_data = [[questions_approved, questions_not_ready, questions_prepared]]
     for item in questions_for_field:
-        print item.values
         y_data.append(item.values()[1:])
-    color_list = ['#98df8a', '#d62728', '#ffbb78']  # opracowane, nieopracowane, przygotowane
-    chart_type = "pieChart"
-    extra_series = {"tooltip": {"y_start": "", "y_end": " pytan"}, 'color': '#FF8aF8'}
     chart_data_0 = {'x': x_data, 'y': y_data[0], 'extra': extra_series}
     chart_data_1 = {'x': x_data, 'y': y_data[1], 'extra': extra_series}
     chart_data_2 = {'x': x_data, 'y': y_data[2], 'extra': extra_series}
+    chart_data_3 = {'x': x_data, 'y': y_data[3], 'extra': extra_series}
     data = {
         'chart_type': chart_type,
         'chart_data_0': chart_data_0,
         'chart_data_1': chart_data_1,
         'chart_data_2': chart_data_2,
+        'chart_data_3': chart_data_3,
         'extra': {
             'x_is_date': False,
             'x_axis_format': '',
@@ -158,3 +162,12 @@ def load_questions_field_of_question(request, field_of_question_id):
             correct_answer, created = Answer.objects.get_or_create(value=item[1], correct=True)
             Question.objects.get_or_create(question_number=number + 1, field_of_question=field_of_question, value=item[0], answer_1=correct_answer)
     pass
+
+
+def start_test(request, field_of_question_id="all"):
+    question_approved = Question.objects.filter(approved_by_admin=True)
+    print len(question_approved)
+    return render_to_response('mgr/start_test.html',
+        {
+
+        }, RequestContext(request))

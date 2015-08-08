@@ -131,9 +131,9 @@ def accept_question(request):
     answered_questions = Question.objects.filter(approved_by_admin=False, is_prepared=True)
     questions_to_do_id = [question_id.id for question_id in answered_questions]
     if questions_to_do_id:
-            random_question_id = random.choice(questions_to_do_id)
-            random_question = Question.objects.get(id=random_question_id)
-            form = QuestionForm(instance=random_question)
+        random_question_id = random.choice(questions_to_do_id)
+        random_question = Question.objects.get(id=random_question_id)
+        form = QuestionForm(instance=random_question)
     else:
         form = random_question = None
     return render_to_response('admin/accept_question.html',
@@ -164,10 +164,54 @@ def load_questions_field_of_question(request, field_of_question_id):
     pass
 
 
-def start_test(request, field_of_question_id="all"):
-    question_approved = Question.objects.filter(approved_by_admin=True)
-    print len(question_approved)
-    return render_to_response('mgr/start_test.html',
-        {
+@login_required()
+def start_test(request, field_of_question="all"):
+    if field_of_question is "all":
+        question_approved = Question.objects.filter(approved_by_admin=True).order_by('id')
+    else:
+        question_approved = Question.objects.filter(field_of_question__name__icontains=field_of_question, approved_by_admin=True)
+    return render_to_response('mgr/start_test.html', {
+        'question_approved': question_approved,
+    }, RequestContext(request))
 
-        }, RequestContext(request))
+
+@login_required()
+def check_answers(request):
+    answers = []
+    correct_answers = 0
+    for item in request.POST:
+        if '-' in item:
+            question_id, answer_id = item.split('-')
+            answers.append(check_correct_answer(question_id, answer_id))
+    for value in answers:
+        if value is True:
+            correct_answers += 1
+    color_list = ['#98df8a', '#d62728', '#ffbb78']  # opracowane, nieopracowane, przygotowane
+    chart_type = "pieChart"
+    extra_series = {"tooltip": {"y_start": "", "y_end": " pytan"}, 'color': '#FF8aF8'}
+    x_data = ['Dobrze', 'Zle']
+    y_data = [correct_answers, len(answers)-correct_answers]
+    chart_data_0 = {'x': x_data, 'y': y_data, 'extra': extra_series}
+    data = {
+        'chart_type': chart_type,
+        'chart_data_0': chart_data_0,
+        'extra': {
+            'x_is_date': False,
+            'x_axis_format': '',
+            'tag_script_js': True,
+            'jquery_on_ready': False,
+            'chart_attr': {'color': color_list, 'labelType': '"percent"'},
+            'donut': True,
+            # 'showLabels': True,
+        },
+    }
+    return render_to_response('mgr/display_results.html', data, RequestContext(request))
+
+
+def check_correct_answer(question_id, answer_id):
+    # question = Question.objects.get(id=question_id)
+    answer = Answer.objects.get(id=answer_id)
+    if answer.correct is True:
+        return True
+    else:
+        return False

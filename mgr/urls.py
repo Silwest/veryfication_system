@@ -11,7 +11,8 @@ urlpatterns = patterns(
     url(r'^savequestion/(?P<question_id>(\d+))/(?P<accept>(\w+))/?$', views.save_question, name='save_question'),
     url(r'^acceptquestion/?$', views.accept_question, name='accept_question'),
     url(r'^loadquestions/(?P<field_of_question_id>(\d+))/?$', views.load_questions_field_of_question, name='load_questions'),
-    url(r'^start_test/(?P<field_of_question_id>(\w+))/?', views.start_test, name='start_test'),
+    url(r'^starttest/(?P<field_of_question>(\w+))/?', views.start_test, name='start_test'),
+    url(r'^checkanswers/?', views.check_answers, name='check_answers'),
     url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'registration/login.html'}),
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
 )

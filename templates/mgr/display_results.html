@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load nvd3_tags %}
+{% load staticfiles %}
+
+{% block links %}
+    {% include_chart_jscss %}
+{% endblock %}
+{% block script %}
+    {% load_chart chart_type chart_data_0 "piechart_container_0" extra %}
+{% endblock %}
+{% block head-content %}
+    <div class="row">
+        <div class="col-sm-12 col-md-12 center-block">
+            <div class="thumbnail">
+                {% include_container "piechart_container_0" 400 370 %}
+                <div class="caption">
+                    <h3>Twoje wyniki!</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

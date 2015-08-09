@@ -1,5 +1,7 @@
+from django import forms
+from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.forms import ModelForm, HiddenInput
-from mgr.models import Question
+from mgr.models import Question, CustomTest
 
 
 class QuestionForm(ModelForm):
@@ -29,3 +31,12 @@ class QuestionForm(ModelForm):
 
         for key in self.fields:
             self.fields[key].widget.attrs.update({'class': 'form-control'})
+
+
+class CustomTestForm(ModelForm):
+    questions = forms.ModelMultipleChoiceField(Question.objects.all(),
+                                               widget=FilteredSelectMultiple('Questions', False, attrs={'rows': 10}))
+
+    class Meta:
+        fields = '__all__'
+        model = CustomTest

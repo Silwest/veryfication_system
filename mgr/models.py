@@ -57,3 +57,9 @@ class Question(models.Model):
 
 class UserProfile(AbstractUser):
     question_prepared = models.ManyToManyField(Question, blank=True, related_name="prepared_by")
+
+
+class CustomTest(models.Model):
+    name = models.CharField(max_length=40, blank=False, null=False, unique=True, default='Przykladowy test')
+    questions = models.ManyToManyField(Question, related_name="Pytania", verbose_name="questions")
+    approved_by_admin = models.BooleanField(default=False, blank=True)

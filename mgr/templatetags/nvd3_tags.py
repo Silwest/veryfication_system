@@ -44,7 +44,8 @@ def load_chart(chart_type, series, container, kw_extra={}, *args, **kwargs):
         kw_extra['tag_script_js'] = True
     if not 'chart_attr' in kw_extra:
         kw_extra['chart_attr'] = {}
-    # set the container name
+    if len(str(container)) == 1:
+        container = "piechart_" + str(container)
     kw_extra['name'] = str(container)
 
     # Build chart
@@ -90,6 +91,8 @@ def include_container(include_container, height=400, width=600):
         * ``height`` - Chart height
         * ``width`` - Chart width
     """
+    if len(str(include_container)) == 1:
+        include_container = "piechart_" + str(include_container)
     chart = NVD3Chart()
     chart.name = str(include_container)
     chart.set_graph_height(height)

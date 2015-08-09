@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block script %}
+    <script>
+        $(document).ready(function () {
+            var $all_questions = $('#all-questions tbody');
+            {#        var $selected_questions = $('#selected-questions tbody');#}
+            $('.btn-success.btn-sm').on('click', function () {
+                {#            $('#selected-questions tbody').append($(this).closest('tr'));#}
+                {#            $selected_questions.append($(this).closest('tr'));#}
+                {#            console.log($(this).closest('tr'));#}
+                var $closest_tr = $(this).closest('tr');
+                $closest_tr.addClass('alert-success');
+                $closest_tr.find('#add').hide();
+                $closest_tr.find('#delete').show();
+                $closest_tr.find("[type='checkbox']").prop('checked', true);
+                {#            $selected_questions.append($closest_tr.html());#}
+            });
+            $('.btn-danger.btn-sm').on('click', function () {
+                var $closest_tr = $(this).closest('tr');
+                $closest_tr.removeClass('alert-success');
+                $closest_tr.find('#delete').hide();
+                $closest_tr.find('#add').show();
+                $closest_tr.find("[type='checkbox']").prop('checked', false);
+            });
+            $('#clear-all').on('click', function () {
+                var $checked_rows = $('#all-questions tbody').children('tr');
+                $checked_rows.each(function () {
+                    $(this).removeClass('alert-success');
+                    $(this).find('#delete').hide();
+                    $(this).find('#add').show();
+                    $(this).removeClass('alert-success');
+                    $(this).find("[type='checkbox']").prop('checked', false);
+                });
+            });
+        });
+    </script>
+{% endblock %}
+{% block head-content %}
+    <form id="create-test" action="{% url "mgr.views.create_test" %}" method="post">
+    {% csrf_token %}
+        <div class="row">
+            <table class="table" id="all-questions">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Przedmiot</th>
+                    <th>Pytanie</th>
+                    <th>Dodaj/Usuń</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for question in question_approved %}
+                    <tr id="{{ question.id }}">
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ question.field_of_question.name }}</td>
+                        <td>{{ question.value }}</td>
+                        <td id="add">
+                            <button type="button" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-ok"></span></button>
+                        </td>
+                        <td style="display: none" id="delete">
+                            <button type="button" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove"></span></button>
+                        </td>
+                        <td style="display: none;">
+                            <label>
+                                <input type="checkbox" name="{{ question.id }}"/>
+                            </label>
+                        </td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="2" align="center">
+                        <button class="btn btn-danger btn-lg" type="button" id="clear-all"><span class="glyphicon glyphicon-trash"></span> Wyczyść wszystko
+                        </button>
+                    </td>
+                    <td colspan="2" align="right">
+                        <button class="btn btn-success btn-lg" type="submit" id="submit"><span class="glyphicon glyphicon-check"></span> Dodaj test</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        {#        <div class="row">#}
+        {#            <table class="table table-hover" id="selected-questions">#}
+        {#                <thead>#}
+        {#                <tr>#}
+        {#                    <th></th>#}
+        {#                    <th>Przedmiot</th>#}
+        {#                    <th>Pytanie</th>#}
+        {#                </tr>#}
+        {#                </thead>#}
+        {#                <tbody>#}
+        {#                </tbody>#}
+        {#            </table>#}
+        {#        </div>#}
+    </form>
+{% endblock %}

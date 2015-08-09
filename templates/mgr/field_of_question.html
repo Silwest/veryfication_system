@@ -6,6 +6,9 @@
     {% include_chart_jscss %}
 {% endblock %}
 {% block script %}
+    {% for item in chart_data %}
+        {% load_chart chart_type item forloop.counter0 extra %}
+    {% endfor %}
     {% load_chart chart_type chart_data_0 "piechart_container_0" extra %}
     {% load_chart chart_type chart_data_1 "piechart_container_1" extra %}
     {% load_chart chart_type chart_data_2 "piechart_container_2" extra %}
@@ -24,7 +27,8 @@
                 {% include_container "piechart_container_0" 400 370 %}
                 <div class="caption">
                     <h3>Informatyka Stosowana</h3>
-                    <a href="{% url "mgr.views.start_test" "all" %}" class="btn btn-info"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Rozpocznij test </a>
+                    <a href="{% url "mgr.views.start_test" "all" %}" class="btn btn-info"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                        Rozpocznij test </a>
                 </div>
             </div>
         </div>
@@ -35,7 +39,8 @@
                 {% include_container "piechart_container_1" 400 370 %}
                 <div class="caption">
                     <h3>Matematyka</h3>
-                    <a href="{% url "mgr.views.start_test" "matematyka" %}" class="btn btn-info"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Rozpocznij test </a>
+                    <a href="{% url "mgr.views.start_test" "matematyka" %}" class="btn btn-info"><span class="glyphicon glyphicon-pencil"
+                                                                                                       aria-hidden="true"></span> Rozpocznij test </a>
                 </div>
             </div>
         </div>
@@ -44,7 +49,8 @@
                 {% include_container "piechart_container_2" 400 370 %}
                 <div class="caption">
                     <h3>Algorytmy i Struktury Danych</h3>
-                    <a href="{% url "mgr.views.start_test" "algorytmy" %}" class="btn btn-info"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Rozpocznij test </a>
+                    <a href="{% url "mgr.views.start_test" "algorytmy" %}" class="btn btn-info"><span class="glyphicon glyphicon-pencil"
+                                                                                                      aria-hidden="true"></span> Rozpocznij test </a>
                 </div>
             </div>
         </div>
@@ -53,9 +59,24 @@
                 {% include_container "piechart_container_3" 400 370 %}
                 <div class="caption">
                     <h3>System Operacyjny Unix</h3>
-                    <a href="{% url "mgr.views.start_test" "unix" %}" class="btn btn-info"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Rozpocznij test </a>
+                    <a href="{% url "mgr.views.start_test" "unix" %}" class="btn btn-info"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                        Rozpocznij test </a>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row">
+        {% for item in chart_data %}
+            <div class="col-sm-6 col-md-4">
+                <div class="thumbnail">
+                    {% include_container forloop.counter0 400 370 %}
+                    <div class="caption">
+                        <h3>Custom test</h3>
+                        <a href="{% url "mgr.views.start_test" "custom" %}" class="btn btn-info"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                        Rozpocznij test </a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}

@@ -5,7 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from mgr.forms import QuestionForm
-from mgr.models import Department, FieldOfStudy, FieldOfQuestion, Question, Answer, UserProfile
+from mgr.models import Department, FieldOfStudy, FieldOfQuestion, Question, Answer, UserProfile, CustomTest
+from django.contrib import messages
 
 
 @login_required
@@ -34,10 +35,12 @@ def choose_department(request):
 @login_required()
 def show_field_of_question(request, field_of_study_id):
     field_of_question = FieldOfQuestion.objects.filter(field_of_study__id=field_of_study_id)
+    custom_test = CustomTest.objects.filter(approved_by_admin=True)
     questions_for_field = []
     color_list = ['#98df8a', '#d62728', '#ffbb78']  # opracowane, nieopracowane, przygotowane
     chart_type = "pieChart"
     extra_series = {"tooltip": {"y_start": "", "y_end": " pytan"}, 'color': '#FF8aF8'}
+
     for question_field in field_of_question:
         questions = Question.objects.filter(field_of_question=question_field)
         questions_approved = len(questions.filter(approved_by_admin=True))
@@ -48,21 +51,32 @@ def show_field_of_question(request, field_of_study_id):
             'questions_not_ready': questions_not_ready,
             'questions_approved': questions_approved,
             'questions_prepared': questions_prepared,
-        }
+            }
         questions_for_field.append(dictionary)
     questions_approved = len(Question.objects.filter(field_of_question__in=field_of_question, approved_by_admin=True))
-    questions_prepared = len(Question.objects.filter(field_of_question__in=field_of_question, is_prepared=True, approved_by_admin=False))
     questions_not_ready = len(Question.objects.filter(field_of_question__in=field_of_question, is_prepared=False, approved_by_admin=False))
+    questions_prepared = len(Question.objects.filter(field_of_question__in=field_of_question, is_prepared=True, approved_by_admin=False))
     x_data = ['Opracowane', 'Nieopracowane', 'Przygotowane']
     y_data = [[questions_approved, questions_not_ready, questions_prepared]]
     for item in questions_for_field:
         y_data.append(item.values()[1:])
+    # add questions from custom test
+    chart_data = []
+    for test in custom_test:
+        chart_data.append({'x': x_data, 'y': [len(test.questions.all()), 0, 0], 'extra': extra_series})
+    # for number, item in enumerate(custom_test):
+    #     chart_data.append({'x': x_data, 'y': y_data[number], 'extra': extra_series})
+    print chart_data
+    # chart_data_custom = {'x': x_data, 'y': chart_data[0], 'extra': extra_series}
     chart_data_0 = {'x': x_data, 'y': y_data[0], 'extra': extra_series}
     chart_data_1 = {'x': x_data, 'y': y_data[1], 'extra': extra_series}
     chart_data_2 = {'x': x_data, 'y': y_data[2], 'extra': extra_series}
     chart_data_3 = {'x': x_data, 'y': y_data[3], 'extra': extra_series}
+    print chart_data
+    # print chart_data_custom
     data = {
         'chart_type': chart_type,
+        'chart_data': chart_data,
         'chart_data_0': chart_data_0,
         'chart_data_1': chart_data_1,
         'chart_data_2': chart_data_2,
@@ -76,7 +90,7 @@ def show_field_of_question(request, field_of_study_id):
             'donut': True,
             # 'showLabels': True,
         },
-    }
+        }
     return render_to_response('mgr/field_of_question.html', data, RequestContext(request))
 
 
@@ -166,8 +180,11 @@ def load_questions_field_of_question(request, field_of_question_id):
 
 @login_required()
 def start_test(request, field_of_question="all"):
-    if field_of_question is "all":
+    if field_of_question == "all":
         question_approved = Question.objects.filter(approved_by_admin=True).order_by('id')
+    elif field_of_question == "custom":
+        custom_test = CustomTest.objects.get(name__icontains="Silwest")
+        question_approved = custom_test.questions.all()
     else:
         question_approved = Question.objects.filter(field_of_question__name__icontains=field_of_question, approved_by_admin=True)
     return render_to_response('mgr/start_test.html', {
@@ -215,3 +232,19 @@ def check_correct_answer(question_id, answer_id):
         return True
     else:
         return False
+
+
+def create_test(request):
+    if request.POST:
+        name_of_test = request.user.get_full_name() + " test"
+        custom_test, created = CustomTest.objects.get_or_create(name=name_of_test)
+        for item in request.POST:
+            if item != 'csrfmiddlewaretoken':
+                question = Question.objects.get(id=item)
+                custom_test.questions.add(question)
+                custom_test.save()
+        messages.add_message(request, messages.SUCCESS, "Custom Test has been created.")
+    question_approved = Question.objects.filter(approved_by_admin=True).order_by('id')
+    return render_to_response('mgr/create_test.html', {
+            'question_approved': question_approved,
+            }, RequestContext(request))

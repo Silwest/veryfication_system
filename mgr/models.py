@@ -63,3 +63,13 @@ class CustomTest(models.Model):
     name = models.CharField(max_length=40, blank=False, null=False, unique=True, default='Przykladowy test')
     questions = models.ManyToManyField(Question, related_name="Pytania", verbose_name="questions")
     approved_by_admin = models.BooleanField(default=False, blank=True)
+
+
+class Statistic(models.Model):
+    correct_answers = models.IntegerField(default=0, blank=False, null=False)
+    all_answers = models.IntegerField(default=0, blank=False, null=False)
+    user = models.ForeignKey(UserProfile, related_name="user_stats")
+    field_of_question = models.ForeignKey(FieldOfQuestion, related_name="field_stats")
+
+    def __unicode__(self):
+        return "%s - %s " % (self.user, self.field_of_question)

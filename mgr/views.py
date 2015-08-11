@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from mgr.forms import QuestionForm
-from mgr.models import Department, FieldOfStudy, FieldOfQuestion, Question, Answer, UserProfile, CustomTest
+from mgr.models import Department, FieldOfStudy, FieldOfQuestion, Question, Answer, UserProfile, CustomTest, Statistic
 from django.contrib import messages
 
 
@@ -197,17 +197,23 @@ def check_answers(request):
     answers = []
     correct_answers = 0
     for item in request.POST:
-        if '-' in item:
-            question_id, answer_id = item.split('-')
-            answers.append(check_correct_answer(question_id, answer_id))
+        if '-' in request.POST.get(item):
+            question_id, answer_id = request.POST.get(item).split('-')
+            answers.append(check_correct_answer(request.user, question_id, answer_id))
     for value in answers:
         if value is True:
             correct_answers += 1
+
+    return redirect('display_results', answers=len(answers), correct_answers=correct_answers)
+
+
+def display_results(request, answers, correct_answers):
     color_list = ['#98df8a', '#d62728', '#ffbb78']  # opracowane, nieopracowane, przygotowane
     chart_type = "pieChart"
-    extra_series = {"tooltip": {"y_start": "", "y_end": " pytan"}, 'color': '#FF8aF8'}
     x_data = ['Dobrze', 'Zle']
-    y_data = [correct_answers, len(answers)-correct_answers]
+    y_data = [correct_answers, int(answers)-int(correct_answers)]
+    extra_series = {"tooltip": {"y_start": "", "y_end": " pytan"}, 'color': '#FF8aF8'}
+
     chart_data_0 = {'x': x_data, 'y': y_data, 'extra': extra_series}
     data = {
         'chart_type': chart_type,
@@ -225,15 +231,37 @@ def check_answers(request):
     return render_to_response('mgr/display_results.html', data, RequestContext(request))
 
 
-def check_correct_answer(question_id, answer_id):
-    # question = Question.objects.get(id=question_id)
+def check_correct_answer(user, question_id, answer_id):
+    question = Question.objects.get(id=question_id)
     answer = Answer.objects.get(id=answer_id)
     if answer.correct is True:
+        answer_correct(user, question.field_of_question)
         return True
     else:
+        answer_incorrect(user, question.field_of_question)
         return False
 
 
+def answer_correct(user, field_of_question):
+    user_stats, created = Statistic.objects.get_or_create(user=user, field_of_question=field_of_question)
+    user_stats.correct_answers += 1
+    user_stats.all_answers += 1
+    user_stats.save()
+
+
+def answer_incorrect(user, field_of_question):
+    user_stats, created = Statistic.objects.get_or_create(user=user, field_of_question=field_of_question)
+    user_stats.all_answers += 1
+    user_stats.save()
+
+
+def statistics(request):
+    print request.user
+
+    pass
+
+
+@login_required()
 def create_test(request):
     if request.POST:
         name_of_test = request.user.get_full_name() + " test"

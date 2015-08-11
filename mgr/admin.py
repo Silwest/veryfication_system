@@ -1,5 +1,5 @@
 from django.contrib import admin
-from mgr.models import Department, FieldOfStudy, Question, Answer, FieldOfQuestion, UserProfile, CustomTest
+from mgr.models import Department, FieldOfStudy, Question, Answer, FieldOfQuestion, UserProfile, CustomTest, Statistic
 
 
 class DepartmentAdmin(admin.ModelAdmin):
@@ -35,3 +35,8 @@ admin.site.register(UserProfile, UserProfileAdmin)
 class CustomTestAdmin(admin.ModelAdmin):
     filter_horizontal = ['questions']
 admin.site.register(CustomTest, CustomTestAdmin)
+
+
+class StatisticAdmin(admin.ModelAdmin):
+    pass
+admin.site.register(Statistic, StatisticAdmin)

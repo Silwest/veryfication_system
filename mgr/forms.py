@@ -21,7 +21,7 @@ class QuestionForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(QuestionForm, self).__init__(*args, **kwargs)
-        self.fields['image'].widget = HiddenInput()
+        # self.fields['image'].widget = HiddenInput()
         self.fields['approved_by_admin'].widget = HiddenInput()
         self.fields['question_number'].widget.attrs.update({'readonly': 'True'})
         self.fields['value'].widget.attrs.update({'readonly': 'True'})

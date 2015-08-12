@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% load nvd3_tags %}
+{% load staticfiles %}
+
+{% block links %}
+    {% include_chart_jscss %}
+{% endblock %}
+{% block script %}
+    {% load_chart charttype chartdata "multibarhorizontalchart_container" extra %}
+{% endblock %}
+
+{% block head-content %}
+    {% include_container "multibarhorizontalchart_container" 800 1000 %}
+{% endblock %}
+
+
+

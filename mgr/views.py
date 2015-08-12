@@ -196,10 +196,12 @@ def start_test(request, field_of_question="all"):
 def check_answers(request):
     answers = []
     correct_answers = 0
+    user = request.user
+    user_stats = Statistic.objects.create(user=user)
     for item in request.POST:
         if '-' in request.POST.get(item):
             question_id, answer_id = request.POST.get(item).split('-')
-            answers.append(check_correct_answer(request.user, question_id, answer_id))
+            answers.append(check_correct_answer(user_stats.id, question_id, answer_id))
     for value in answers:
         if value is True:
             correct_answers += 1
@@ -231,34 +233,32 @@ def display_results(request, answers, correct_answers):
     return render_to_response('mgr/display_results.html', data, RequestContext(request))
 
 
-def check_correct_answer(user, question_id, answer_id):
+def check_correct_answer(user_stats_id, question_id, answer_id):
     question = Question.objects.get(id=question_id)
     answer = Answer.objects.get(id=answer_id)
+    user_stats = Statistic.objects.get(id=user_stats_id)
+    if not user_stats.field_of_question:
+        user_stats.field_of_question = question.field_of_question
+        user_stats.save()
     if answer.correct is True:
-        answer_correct(user, question.field_of_question)
+        answer_correct(user_stats_id)
         return True
     else:
-        answer_incorrect(user, question.field_of_question)
+        answer_incorrect(user_stats_id)
         return False
 
 
-def answer_correct(user, field_of_question):
-    user_stats, created = Statistic.objects.get_or_create(user=user, field_of_question=field_of_question)
+def answer_correct(user_stats_id):
+    user_stats = Statistic.objects.get(id=user_stats_id)
     user_stats.correct_answers += 1
     user_stats.all_answers += 1
     user_stats.save()
 
 
-def answer_incorrect(user, field_of_question):
-    user_stats, created = Statistic.objects.get_or_create(user=user, field_of_question=field_of_question)
+def answer_incorrect(user_stats_id):
+    user_stats = Statistic.objects.get(id=user_stats_id)
     user_stats.all_answers += 1
     user_stats.save()
-
-
-def statistics(request):
-    print request.user
-
-    pass
 
 
 @login_required()
@@ -276,3 +276,41 @@ def create_test(request):
     return render_to_response('mgr/create_test.html', {
             'question_approved': question_approved,
             }, RequestContext(request))
+
+
+@login_required()
+def display_statistics(request):
+    user = request.user
+    statistics = Statistic.objects.filter(user=user)
+    dicttionary = {}
+    x_data = []
+    y_data_0 = []
+    y_data_1 = []
+
+    for stat in statistics:
+        x_data.append(stat.field_of_question.shortcut)
+        y_data_0.append(stat.correct_answers)
+        y_data_1.append(stat.all_answers - stat.correct_answers)
+    extra_serie = {"tooltip": {"y_start": "", "y_end": " pytania"}, 'color': '#FF8aF8'}
+    chartdata = {
+        'x': x_data,
+        'name1': 'Poprawne', 'y1': y_data_0, 'extra1': extra_serie,
+        'name2': 'Bledne', 'y2': y_data_1, 'extra2': extra_serie,
+    }
+    color_list = ['#98df8a', '#d62728', '#ffbb78']
+    charttype = "multiBarHorizontalChart"
+    data = {
+        'charttype': charttype,
+        'chartdata': chartdata,
+        'extra': {
+            'x_is_date': False,
+            'x_axis_format': '',
+            'tag_script_js': True,
+            'jquery_on_ready': False,
+            # 'color_category': 'category20c',
+            'chart_attr': {'color': color_list},
+            # 'donut': True,
+            # 'showLabels': True,
+        }
+    }
+    return render_to_response('mgr/display_statistics.html', data, RequestContext(request))

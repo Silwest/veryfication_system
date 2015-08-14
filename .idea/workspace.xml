@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ac3617a7-da9c-4abe-8576-a685d623e73f" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/mgr/display_statistics.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/base.html" afterPath="$PROJECT_DIR$/templates/base.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mgr/forms.py" afterPath="$PROJECT_DIR$/mgr/forms.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/home.html" afterPath="$PROJECT_DIR$/templates/home.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mgr/models.py" afterPath="$PROJECT_DIR$/mgr/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mgr/templatetags/nvd3_tags.py" afterPath="$PROJECT_DIR$/mgr/templatetags/nvd3_tags.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mgr/urls.py" afterPath="$PROJECT_DIR$/mgr/urls.py" />
+    <list default="true" id="ac3617a7-da9c-4abe-8576-a685d623e73f" name="Default" comment="FIX: Fix for statistics">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/mgr/display_statistics.html" afterPath="$PROJECT_DIR$/templates/mgr/display_statistics.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/mgr/start_test.html" afterPath="$PROJECT_DIR$/templates/mgr/start_test.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mgr/views.py" afterPath="$PROJECT_DIR$/mgr/views.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -37,8 +32,8 @@
       <file leaf-file-name="views.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mgr/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.13576159" vertical-offset="4083" max-vertical-offset="5457">
-              <caret line="245" column="9" selection-start-line="245" selection-start-column="9" selection-end-line="245" selection-end-column="9" />
+            <state vertical-scroll-proportion="0.78975266" vertical-offset="3140" max-vertical-offset="6188">
+              <caret line="211" column="0" selection-start-line="211" selection-start-column="0" selection-end-line="211" selection-end-column="0" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -46,11 +41,31 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="lineWithFocusChart.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Virtual_Environment_Django_1.7/Lib/site-packages/nvd3/lineWithFocusChart.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1242" max-vertical-offset="1870">
+              <caret line="83" column="20" selection-start-line="83" selection-start-column="20" selection-end-line="83" selection-end-column="20" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NVD3Chart.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Virtual_Environment_Django_1.7/Lib/site-packages/nvd3/NVD3Chart.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="7208" max-vertical-offset="8432">
+              <caret line="428" column="24" selection-start-line="428" selection-start-column="24" selection-end-line="428" selection-end-column="24" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="display_statistics.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/mgr/display_statistics.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.8846154" vertical-offset="0" max-vertical-offset="408">
-              <caret line="9" column="80" selection-start-line="9" selection-start-column="80" selection-end-line="9" selection-end-column="80" />
+            <state vertical-scroll-proportion="-15.538462" vertical-offset="208" max-vertical-offset="816">
+              <caret line="36" column="6" selection-start-line="35" selection-start-column="8" selection-end-line="36" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -59,11 +74,9 @@
       <file leaf-file-name="nvd3_tags.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mgr/templatetags/nvd3_tags.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="647" max-vertical-offset="2499">
-              <caret line="69" column="20" selection-start-line="69" selection-start-column="20" selection-end-line="69" selection-end-column="20" />
-              <folding>
-                <element signature="e#0#51#0" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="2516">
+              <caret line="4" column="35" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="35" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -71,18 +84,8 @@
       <file leaf-file-name="multiBarHorizontalChart.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/Virtual_Environment_Django_1.7/Lib/site-packages/nvd3/multiBarHorizontalChart.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="598" max-vertical-offset="1802">
-              <caret line="94" column="24" selection-start-line="94" selection-start-column="24" selection-end-line="94" selection-end-column="24" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="content.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Virtual_Environment_Django_1.7/Lib/site-packages/nvd3/templates/content.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="56.884617" vertical-offset="1615" max-vertical-offset="2193">
-              <caret line="8" column="20" selection-start-line="8" selection-start-column="20" selection-end-line="8" selection-end-column="20" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1225" max-vertical-offset="1802">
+              <caret line="94" column="23" selection-start-line="94" selection-start-column="23" selection-end-line="94" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -91,11 +94,9 @@
       <file leaf-file-name="models.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mgr/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="377" max-vertical-offset="1411">
-              <caret line="25" column="6" selection-start-line="25" selection-start-column="6" selection-end-line="25" selection-end-column="6" />
-              <folding>
-                <element signature="e#0#29#0" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="0.0" vertical-offset="1258" max-vertical-offset="1411">
+              <caret line="74" column="8" selection-start-line="74" selection-start-column="4" selection-end-line="74" selection-end-column="8" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -103,18 +104,8 @@
       <file leaf-file-name="display_results.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/mgr/display_results.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.65384614" vertical-offset="0" max-vertical-offset="459">
+            <state vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="459">
               <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="9" selection-end-column="14" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="base.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/base.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.384615" vertical-offset="986" max-vertical-offset="1853">
-              <caret line="80" column="83" selection-start-line="80" selection-start-column="64" selection-end-line="80" selection-end-column="83" />
               <folding />
             </state>
           </provider>
@@ -180,16 +171,17 @@
         <option value="$PROJECT_DIR$/veryfication_system/settings.py" />
         <option value="$PROJECT_DIR$/templates/registration/login.html" />
         <option value="$PROJECT_DIR$/mgr/admin.py" />
-        <option value="$PROJECT_DIR$/templates/mgr/start_test.html" />
         <option value="$PROJECT_DIR$/mgr/forms.py" />
         <option value="$PROJECT_DIR$/templates/home.html" />
         <option value="$PROJECT_DIR$/mgr/urls.py" />
         <option value="$PROJECT_DIR$/templates/base.html" />
         <option value="$PROJECT_DIR$/mgr/templatetags/nvd3_tags.py" />
+        <option value="$PROJECT_DIR$/mgr/models.py" />
         <option value="$USER_HOME$/Virtual_Environment_Django_1.7/Lib/site-packages/nvd3/multiBarHorizontalChart.py" />
         <option value="$USER_HOME$/Virtual_Environment_Django_1.7/Lib/site-packages/nvd3/NVD3Chart.py" />
+        <option value="$USER_HOME$/Virtual_Environment_Django_1.7/Lib/site-packages/nvd3/lineWithFocusChart.py" />
+        <option value="$PROJECT_DIR$/templates/mgr/start_test.html" />
         <option value="$PROJECT_DIR$/templates/mgr/display_statistics.html" />
-        <option value="$PROJECT_DIR$/mgr/models.py" />
         <option value="$PROJECT_DIR$/mgr/views.py" />
       </list>
     </option>
@@ -629,7 +621,11 @@
       <created>1439276893000</created>
       <updated>1439276893000</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="FIX: Fix for statistics">
+      <created>1439409441684</created>
+      <updated>1439409441684</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TodoView" selected-index="4">
@@ -659,18 +655,18 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32937366" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31351352" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32972974" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3881081" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26332623" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.13113007" sideWeight="0.49762282" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3264865" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.13113007" sideWeight="0.50237715" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31675676" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31675676" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35853133" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="1237" y="628" width="591" height="320" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3881081" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32972974" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -725,7 +721,8 @@
     <MESSAGE value="NEW: Take a test functionality added." />
     <MESSAGE value="NEW: Add custom test functionality" />
     <MESSAGE value="NEW: Statistic added" />
-    <option name="LAST_COMMIT_MESSAGE" value="NEW: Statistic added" />
+    <MESSAGE value="FIX: Fix for statistics" />
+    <option name="LAST_COMMIT_MESSAGE" value="FIX: Fix for statistics" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -743,13 +740,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5463138" vertical-offset="0" max-vertical-offset="18530">
-          <caret line="17" column="54" selection-start-line="17" selection-start-column="54" selection-end-line="17" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Virtual_Environment_Django_1.7/Lib/site-packages/jinja2/environment.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="12519" max-vertical-offset="19975">
@@ -940,9 +930,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="110" max-vertical-offset="799">
           <caret line="41" column="45" selection-start-line="41" selection-start-column="45" selection-end-line="41" selection-end-column="45" />
-          <folding>
-            <marker date="1439227524233" expanded="true" signature="-1:-1" placeholder="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -967,14 +954,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/mgr/start_test.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="765" max-vertical-offset="2465">
-          <caret line="67" column="155" selection-start-line="67" selection-start-column="155" selection-end-line="67" selection-end-column="155" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/media/css/cover.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2580" max-vertical-offset="4148">
@@ -994,9 +973,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="221">
           <caret line="0" column="19" selection-start-line="0" selection-start-column="19" selection-end-line="0" selection-end-column="19" />
-          <folding>
-            <marker date="1431346496127" expanded="true" signature="-1:-1" placeholder="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1004,7 +981,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="144" max-vertical-offset="748">
           <caret line="24" column="48" selection-start-line="24" selection-start-column="48" selection-end-line="24" selection-end-column="48" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1026,25 +1002,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.384615" vertical-offset="986" max-vertical-offset="1853">
+        <state vertical-scroll-proportion="0.0" vertical-offset="986" max-vertical-offset="1853">
           <caret line="80" column="83" selection-start-line="80" selection-start-column="64" selection-end-line="80" selection-end-column="83" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.PyCharm30/system/python_stubs/1889151046/__builtin__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33278146" vertical-offset="2944" max-vertical-offset="87567">
-          <caret line="185" column="4" selection-start-line="185" selection-start-column="4" selection-end-line="185" selection-end-column="4" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/Virtual_Environment_Django_1.7/Lib/site-packages/nvd3/templates/content.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="56.884617" vertical-offset="1615" max-vertical-offset="2193">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1615" max-vertical-offset="2193">
           <caret line="8" column="20" selection-start-line="8" selection-start-column="20" selection-end-line="8" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1052,9 +1019,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5066225" vertical-offset="0" max-vertical-offset="604">
           <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding>
-            <element signature="e#553#585#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1062,7 +1026,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33278146" vertical-offset="30161" max-vertical-offset="44217">
           <caret line="1810" column="8" selection-start-line="1810" selection-start-column="8" selection-end-line="1810" selection-end-column="8" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1070,68 +1033,85 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.20981388" vertical-offset="132493" max-vertical-offset="161653">
           <caret line="7801" column="21" selection-start-line="7801" selection-start-column="11" selection-end-line="7801" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Virtual_Environment_Django_1.7/Lib/site-packages/nvd3/NVD3Chart.py">
+    <entry file="file://$PROJECT_DIR$/templates/mgr/display_results.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3642384" vertical-offset="1905" max-vertical-offset="8551">
-          <caret line="125" column="13" selection-start-line="125" selection-start-column="13" selection-end-line="125" selection-end-column="13" />
-          <folding>
-            <element signature="e#294#333#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Virtual_Environment_Django_1.7/Lib/site-packages/nvd3/multiBarHorizontalChart.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1159" max-vertical-offset="1802">
-          <caret line="94" column="24" selection-start-line="94" selection-start-column="24" selection-end-line="94" selection-end-column="24" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="459">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="9" selection-end-column="14" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mgr/templatetags/nvd3_tags.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="647" max-vertical-offset="2499">
-          <caret line="69" column="20" selection-start-line="69" selection-start-column="20" selection-end-line="69" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#51#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="2516">
+          <caret line="4" column="35" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="35" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/mgr/display_results.html">
+    <entry file="file://$USER_HOME$/Virtual_Environment_Django_1.7/Lib/site-packages/nvd3/multiBarHorizontalChart.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.65384614" vertical-offset="0" max-vertical-offset="459">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="9" selection-end-column="14" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1225" max-vertical-offset="1802">
+          <caret line="94" column="23" selection-start-line="94" selection-start-column="23" selection-end-line="94" selection-end-column="23" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mgr/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="377" max-vertical-offset="1411">
-          <caret line="25" column="6" selection-start-line="25" selection-start-column="6" selection-end-line="25" selection-end-column="6" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.0" vertical-offset="782" max-vertical-offset="1377">
+          <caret line="74" column="8" selection-start-line="74" selection-start-column="4" selection-end-line="74" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/mgr/start_test.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.65384614" vertical-offset="884" max-vertical-offset="2465">
+          <caret line="53" column="25" selection-start-line="53" selection-start-column="25" selection-end-line="53" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.PyCharm30/system/python_stubs/1889151046/__builtin__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33275864" vertical-offset="44976" max-vertical-offset="87567">
+          <caret line="2657" column="8" selection-start-line="2657" selection-start-column="8" selection-end-line="2657" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Virtual_Environment_Django_1.7/Lib/site-packages/nvd3/lineWithFocusChart.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1242" max-vertical-offset="1870">
+          <caret line="83" column="20" selection-start-line="83" selection-start-column="20" selection-end-line="83" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Virtual_Environment_Django_1.7/Lib/site-packages/nvd3/NVD3Chart.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="6786" max-vertical-offset="8432">
+          <caret line="428" column="24" selection-start-line="428" selection-start-column="24" selection-end-line="428" selection-end-column="24" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/mgr/display_statistics.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.8846154" vertical-offset="0" max-vertical-offset="408">
-          <caret line="9" column="80" selection-start-line="9" selection-start-column="80" selection-end-line="9" selection-end-column="80" />
+        <state vertical-scroll-proportion="-15.538462" vertical-offset="208" max-vertical-offset="816">
+          <caret line="36" column="6" selection-start-line="35" selection-start-column="8" selection-end-line="36" selection-end-column="6" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mgr/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.13576159" vertical-offset="4083" max-vertical-offset="5457">
-          <caret line="245" column="9" selection-start-line="245" selection-start-column="9" selection-end-line="245" selection-end-column="9" />
+        <state vertical-scroll-proportion="0.78975266" vertical-offset="3140" max-vertical-offset="6188">
+          <caret line="211" column="0" selection-start-line="211" selection-start-column="0" selection-end-line="211" selection-end-column="0" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>

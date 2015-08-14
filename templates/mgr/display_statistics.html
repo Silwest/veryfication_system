@@ -7,11 +7,35 @@
     {% include_chart_jscss %}
 {% endblock %}
 {% block script %}
-    {% load_chart charttype chartdata "multibarhorizontalchart_container" extra %}
+    {% load_chart chart_type_multi chart_data_multi "multibarhorizontalchart_container" extra %}
+    {% load_chart chart_type_line chart_data_line "linechart_container" extra_line %}
+    {% load_chart chart_type_pie chart_data_pie "piechart_container" extra_line %}
 {% endblock %}
 
 {% block head-content %}
-    {% include_container "multibarhorizontalchart_container" 800 1000 %}
+    <ul class="nav nav-pills">
+        <li role="presentation" class="active"><a data-toggle="tab" href="#sectionA">Line Chart</a></li>
+        <li role="presentation"><a data-toggle="tab" href="#sectionB">Multi Chart</a></li>
+        <li role="presentation"><a data-toggle="tab" href="#sectionC">Pie Chart</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="sectionA" class="tab-pane fade in active">
+            <h3>Line chart</h3>
+
+            {% include_container "linechart_container" 800 1200 %}
+        </div>
+        <div id="sectionB" class="tab-pane fade">
+            <h3>Multi Horizontal chart</h3>
+
+            {% include_container "multibarhorizontalchart_container" 800 1200 %}
+        </div>
+        <div id="sectionC" class="tab-pane fade">
+            <h3>Pie Chart</h3>
+
+            {% include_container "piechart_container" 800 1200 %}
+        </div>
+    </div>
+
 {% endblock %}
 
 

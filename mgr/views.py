@@ -4,6 +4,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
+import time
 from mgr.forms import QuestionForm
 from mgr.models import Department, FieldOfStudy, FieldOfQuestion, Question, Answer, UserProfile, CustomTest, Statistic
 from django.contrib import messages
@@ -282,35 +283,75 @@ def create_test(request):
 def display_statistics(request):
     user = request.user
     statistics = Statistic.objects.filter(user=user)
-    dicttionary = {}
-    x_data = []
+    x_data = set()
+    field_of_questions = set()
     y_data_0 = []
     y_data_1 = []
-
+    y_time_0 = []
+    x_time = []
+    #Line Chart
     for stat in statistics:
-        x_data.append(stat.field_of_question.shortcut)
-        y_data_0.append(stat.correct_answers)
-        y_data_1.append(stat.all_answers - stat.correct_answers)
+        x_data.add(stat.field_of_question.shortcut)
+        field_of_questions.add(stat.field_of_question.name)
+    for number, shortcut in enumerate(field_of_questions):
+        all_answers = 0
+        correct_answers = 0
+        stat_per_field_of_qu = statistics.filter(field_of_question__name=shortcut)
+        y_time_0.append([])
+        for stat in stat_per_field_of_qu:
+            all_answers += stat.all_answers
+            correct_answers += stat.correct_answers
+            start_date = int(time.mktime(stat.date.timetuple()) * 1000)
+            x_time.append(start_date)
+            y_time_0[number].append(stat.correct_answers)
+        y_data_0.append(correct_answers)
+        y_data_1.append('-' + str(all_answers - correct_answers))
     extra_serie = {"tooltip": {"y_start": "", "y_end": " pytania"}, 'color': '#FF8aF8'}
-    chartdata = {
-        'x': x_data,
+    chart_data_multi = {
+        'x': list(x_data),
         'name1': 'Poprawne', 'y1': y_data_0, 'extra1': extra_serie,
         'name2': 'Bledne', 'y2': y_data_1, 'extra2': extra_serie,
-    }
+        }
     color_list = ['#98df8a', '#d62728', '#ffbb78']
-    charttype = "multiBarHorizontalChart"
+    #Multi Chart
+    chart_type_multi = "multiBarHorizontalChart"
+    extra_serie = {"tooltip": {"y_start": "", "y_end": " poprawnych odpowiedzi"}, "date_format": "%d %b %Y"}
+    chart_data_line = {
+        'x': x_time,
+        'name1': field_of_questions.pop(), 'y1': y_time_0[0], 'extra1': extra_serie,
+        'name2': field_of_questions.pop(), 'y2': y_time_0[1], 'extra2': extra_serie,
+    }
+    chart_type_line = "lineWithFocusChart"
+    #piechart
+    x_data_pie = []
+    for data in x_data:
+        x_data_pie.append(data)
+        x_data_pie.append(data + " Bledne")
+    y_data_pie = [y_data_0[0], y_data_1[0].replace('-', ''), y_data_0[1], y_data_1[1].replace('-', '')]
+
+    chart_data_pie = {'x': x_data_pie, 'y1': y_data_pie, 'extra1': extra_serie}
+    chart_type_pie = "pieChart"
+
     data = {
-        'charttype': charttype,
-        'chartdata': chartdata,
+        'chart_type_multi': chart_type_multi,
+        'chart_data_multi': chart_data_multi,
+        'chart_type_line': chart_type_line,
+        'chart_data_line': chart_data_line,
+        'chart_type_pie': chart_type_pie,
+        'chart_data_pie': chart_data_pie,
         'extra': {
             'x_is_date': False,
             'x_axis_format': '',
             'tag_script_js': True,
             'jquery_on_ready': False,
-            # 'color_category': 'category20c',
             'chart_attr': {'color': color_list},
-            # 'donut': True,
-            # 'showLabels': True,
+        },
+        'extra_line': {
+            'x_is_date': True,
+            'x_axis_format': '%d/%b/%y',
+            'tag_script_js': True,
+            'jquery_on_ready': False,
+            'chart_attr': {'color': color_list},
         }
     }
     return render_to_response('mgr/display_statistics.html', data, RequestContext(request))

@@ -1,30 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ac3617a7-da9c-4abe-8576-a685d623e73f" name="Default" comment="UPDATE: Last changes for Statistics, 3 types of charts can be used">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/media/themes/bootstrap.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/media/layouts/bottom.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/media/layouts/bottomCenter.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/media/layouts/bottomLeft.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/media/layouts/bottomRight.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/media/layouts/center.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/media/layouts/centerLeft.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/media/layouts/centerRight.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/media/themes/default.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/media/layouts/inline.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/media/js/jquery.noty.packaged.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/media/js/language/pl_PL.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/media/themes/relax.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/media/layouts/top.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/media/layouts/topCenter.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/media/layouts/topLeft.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/media/layouts/topRight.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/admin/accept_question.html" afterPath="$PROJECT_DIR$/templates/admin/accept_question.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/base.html" afterPath="$PROJECT_DIR$/templates/base.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/mgr/field_of_question.html" afterPath="$PROJECT_DIR$/templates/mgr/field_of_question.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/home.html" afterPath="$PROJECT_DIR$/templates/home.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mgr/views.py" afterPath="$PROJECT_DIR$/mgr/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/mgr/work_on_questions.html" afterPath="$PROJECT_DIR$/templates/mgr/work_on_questions.html" />
+    <list default="true" id="ac3617a7-da9c-4abe-8576-a685d623e73f" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <list id="2a4009d2-8077-4b9a-9e9a-1ab890ccc99b" name="New changelist" comment="" />
@@ -52,8 +29,8 @@
       <file leaf-file-name="views.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mgr/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.47714603" vertical-offset="2785" max-vertical-offset="6103">
-              <caret line="189" column="0" selection-start-line="189" selection-start-column="0" selection-end-line="189" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.7045708" vertical-offset="2734" max-vertical-offset="6103">
+              <caret line="198" column="33" selection-start-line="198" selection-start-column="33" selection-end-line="198" selection-end-column="33" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -696,7 +673,11 @@
       <created>1439547059192</created>
       <updated>1439547059192</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Update: Ostatnie fixy, dodano bliblioteki notyfikacji">
+      <created>1439551810533</created>
+      <updated>1439551810533</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TodoView" selected-index="4">
@@ -794,7 +775,8 @@
     <MESSAGE value="NEW: Statistic added" />
     <MESSAGE value="FIX: Fix for statistics" />
     <MESSAGE value="UPDATE: Last changes for Statistics, 3 types of charts can be used" />
-    <option name="LAST_COMMIT_MESSAGE" value="UPDATE: Last changes for Statistics, 3 types of charts can be used" />
+    <MESSAGE value="Update: Ostatnie fixy, dodano bliblioteki notyfikacji" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update: Ostatnie fixy, dodano bliblioteki notyfikacji" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1186,8 +1168,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mgr/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.47714603" vertical-offset="2785" max-vertical-offset="6103">
-          <caret line="189" column="0" selection-start-line="189" selection-start-column="0" selection-end-line="189" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.7045708" vertical-offset="2734" max-vertical-offset="6103">
+          <caret line="198" column="33" selection-start-line="198" selection-start-column="33" selection-end-line="198" selection-end-column="33" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>

@@ -52,7 +52,7 @@ def show_field_of_question(request, field_of_study_id):
             'questions_not_ready': questions_not_ready,
             'questions_approved': questions_approved,
             'questions_prepared': questions_prepared,
-            }
+        }
         questions_for_field.append(dictionary)
     questions_approved = len(Question.objects.filter(field_of_question__in=field_of_question, approved_by_admin=True))
     questions_not_ready = len(Question.objects.filter(field_of_question__in=field_of_question, is_prepared=False, approved_by_admin=False))
@@ -65,23 +65,18 @@ def show_field_of_question(request, field_of_study_id):
     chart_data = []
     for test in custom_test:
         chart_data.append({'x': x_data, 'y': [len(test.questions.all()), 0, 0], 'extra': extra_series})
-    # for number, item in enumerate(custom_test):
-    #     chart_data.append({'x': x_data, 'y': y_data[number], 'extra': extra_series})
-    print chart_data
-    # chart_data_custom = {'x': x_data, 'y': chart_data[0], 'extra': extra_series}
+
     chart_data_0 = {'x': x_data, 'y': y_data[0], 'extra': extra_series}
     chart_data_1 = {'x': x_data, 'y': y_data[1], 'extra': extra_series}
     chart_data_2 = {'x': x_data, 'y': y_data[2], 'extra': extra_series}
-    chart_data_3 = {'x': x_data, 'y': y_data[3], 'extra': extra_series}
-    print chart_data
-    # print chart_data_custom
+    # chart_data_3 = {'x': x_data, 'y': y_data[3], 'extra': extra_series}
     data = {
         'chart_type': chart_type,
         'chart_data': chart_data,
         'chart_data_0': chart_data_0,
         'chart_data_1': chart_data_1,
         'chart_data_2': chart_data_2,
-        'chart_data_3': chart_data_3,
+        # 'chart_data_3': chart_data_3,
         'extra': {
             'x_is_date': False,
             'x_axis_format': '',
@@ -89,9 +84,8 @@ def show_field_of_question(request, field_of_study_id):
             'jquery_on_ready': False,
             'chart_attr': {'color': color_list, 'labelType': '"percent"'},
             'donut': True,
-            # 'showLabels': True,
         },
-        }
+    }
     return render_to_response('mgr/field_of_question.html', data, RequestContext(request))
 
 
@@ -133,6 +127,7 @@ def save_question(request, question_id, accept=False):
             obj.is_prepared = True
             if accept == "True":
                 obj.approved_by_admin = True
+            messages.add_message(request, messages.SUCCESS, "Pytanie zostalo zapisane!")
             obj.save()
             if accept == "False":
                 user.question_prepared.add(obj)
@@ -188,6 +183,7 @@ def start_test(request, field_of_question="all"):
         question_approved = custom_test.questions.all()
     else:
         question_approved = Question.objects.filter(field_of_question__name__icontains=field_of_question, approved_by_admin=True)
+    messages.add_message(request, messages.INFO, "Powodzenia!")
     return render_to_response('mgr/start_test.html', {
         'question_approved': question_approved,
     }, RequestContext(request))
@@ -214,7 +210,7 @@ def display_results(request, answers, correct_answers):
     color_list = ['#98df8a', '#d62728', '#ffbb78']  # opracowane, nieopracowane, przygotowane
     chart_type = "pieChart"
     x_data = ['Dobrze', 'Zle']
-    y_data = [correct_answers, int(answers)-int(correct_answers)]
+    y_data = [correct_answers, int(answers) - int(correct_answers)]
     extra_series = {"tooltip": {"y_start": "", "y_end": " pytan"}, 'color': '#FF8aF8'}
 
     chart_data_0 = {'x': x_data, 'y': y_data, 'extra': extra_series}
@@ -231,6 +227,7 @@ def display_results(request, answers, correct_answers):
             # 'showLabels': True,
         },
     }
+    messages.add_message(request, messages.WARNING, "Twoje wyniki!")
     return render_to_response('mgr/display_results.html', data, RequestContext(request))
 
 
@@ -272,11 +269,11 @@ def create_test(request):
                 question = Question.objects.get(id=item)
                 custom_test.questions.add(question)
                 custom_test.save()
-        messages.add_message(request, messages.SUCCESS, "Custom Test has been created.")
+        messages.add_message(request, messages.SUCCESS, "Test zostal stworzony!")
     question_approved = Question.objects.filter(approved_by_admin=True).order_by('id')
     return render_to_response('mgr/create_test.html', {
-            'question_approved': question_approved,
-            }, RequestContext(request))
+        'question_approved': question_approved,
+    }, RequestContext(request))
 
 
 @login_required()
@@ -289,7 +286,7 @@ def display_statistics(request):
     y_data_1 = []
     y_time_0 = []
     x_time = []
-    #Line Chart
+    # Line Chart
     for stat in statistics:
         x_data.add(stat.field_of_question.shortcut)
         field_of_questions.add(stat.field_of_question.name)
@@ -311,7 +308,7 @@ def display_statistics(request):
         'x': list(x_data),
         'name1': 'Poprawne', 'y1': y_data_0, 'extra1': extra_serie,
         'name2': 'Bledne', 'y2': y_data_1, 'extra2': extra_serie,
-        }
+    }
     color_list = ['#98df8a', '#d62728', '#ffbb78']
     #Multi Chart
     chart_type_multi = "multiBarHorizontalChart"
@@ -331,7 +328,7 @@ def display_statistics(request):
 
     chart_data_pie = {'x': x_data_pie, 'y1': y_data_pie, 'extra1': extra_serie}
     chart_type_pie = "pieChart"
-
+    messages.add_message(request, messages.ERROR, "Twoje statystyki.")
     data = {
         'chart_type_multi': chart_type_multi,
         'chart_data_multi': chart_data_multi,

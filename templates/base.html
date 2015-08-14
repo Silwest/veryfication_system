@@ -17,6 +17,8 @@
     <script src="{% static "js/bootstrap.min.js" %}"></script>
     <script src="{% static "js/bootstrapValidator.min.js" %}"></script>
     <script src="{% static "js/language/pl_PL.js" %}"></script>
+    <script src="{% static "js/jquery.noty.packaged.min.js" %}"></script>
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -48,8 +50,26 @@
                             left: Math.round(Math.random() * shake) - ((shake + 1) / 2) + 'px',
                             top: Math.round(Math.random() * shake) - ((shake + 1) / 2) + 'px'
                         });
-            }
+            };
+           {% if messages %}
+               {% for message in messages %}
+                   generateNoty('bottomCenter', '{{ message.tags }}', '{{ message }}');
+               {% endfor %}
+           {% endif %}
         });
+        function generateNoty(layout, type, text) {
+            if(type == 'info'){
+                type = 'information';
+            }
+            noty(
+                    {
+                        layout: layout,
+                        type: type,
+                        text: text,
+                        theme: 'relax'
+                    }
+            );
+        }
     </script>
     {% block script %}{% endblock %}
     {% block style %}{% endblock %}
@@ -66,24 +86,23 @@
         </div>
         <div class="collapse navbar-collapse navbar-right">
             <ul class="nav navbar-nav">
-                <li><a href="{% url 'mgr.views.main_page' %}">Home</a></li>
-                <li><a href="{% url 'mgr.views.choose_department' %}">Test</a></li>
+                <li><a href="{% url 'mgr.views.main_page' %}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                <li><a href="{% url 'mgr.views.choose_department' %}"><span class="glyphicon glyphicon-pencil"></span> Test</a></li>
                 {% if user|has_group:"Creator" %}
-                    <li><a href="{% url "mgr.views.create_test" %}">Stworz test</a></li>
+                    <li><a href="{% url "mgr.views.create_test" %}"><span class="glyphicon glyphicon-hand-right"></span> Stworz test</a></li>
                 {% endif %}
-                <li><a href="{% url 'mgr.views.all_questions' %}">Baza pytań</a></li>
-                <li><a href="{% url 'mgr.views.work_on_question' %}">Opracuj pytania</a></li>
+                <li><a href="{% url 'mgr.views.work_on_question' %}"><span class="glyphicon glyphicon-flag"></span> Opracuj pytania</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.get_full_name }}<b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{% url 'mgr.views.display_statistics' %}">Statystyki</a></li>
-                        <li><a href="#">Opcje</a></li>
-                        <li><a href="https://github.com/Silwest/veryfication_system/issues">Zgloś bląd</a></li>
+                        <li><a href="{% url 'mgr.views.display_statistics' %}"><span class="glyphicon glyphicon-list"></span> Statystyki</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Opcje</a></li>
+                        <li><a href="https://github.com/Silwest/veryfication_system/issues"><span class="glyphicon glyphicon-fire"></span> Zgloś bląd</a></li>
                         {% if user.is_staff %}
-                            <li><a href="{% url 'mgr.views.accept_question' %}">Akceptuj pytania</a></li>
-                            <li><a href="/admin">Admin</a></li>{% endif %}
+                            <li><a href="{% url 'mgr.views.accept_question' %}"><span class="glyphicon glyphicon-ok"></span> Akceptuj pytania</a></li>
+                            <li><a href="/admin"><span class="glyphicon glyphicon-wrench"></span> Admin</a></li>{% endif %}
                         <li class="divider"></li>
-                        <li><a href="/logout">Wyloguj</a></li>
+                        <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Wyloguj</a></li>
                     </ul>
                 </li>
             </ul>
@@ -91,13 +110,6 @@
     </div>
 </nav>
 <div class="container">
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
     {% block head-content %}{% endblock %}
 </div>
 </body>

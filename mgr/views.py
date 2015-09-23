@@ -12,18 +12,33 @@ from django.contrib import messages
 
 @login_required
 def main_page(request):
+    """
+    Function representing main page.
+    :param request: Page request
+    :return: Main page
+    """
     return render_to_response('main_page.html', {}, RequestContext(request))
 
 
 @login_required()
 def all_questions(request):
+    """
+    Function representing all questions in the system.
+    :param request: Page request
+    :return: Return page with all questions in the application
+    """
     return render_to_response('mgr/all_questions.html', {}, RequestContext(request))
 
 
 @login_required()
 def choose_department(request):
+    """
+    Function which handles choosing the right department
+    :param request: Page request
+    :return: Page on which you can choose department and also field of study
+    """
     if request.POST:
-        return redirect('mgr.views.show_field_of_question', request.POST.get('kierunek'))
+        return redirect('mgr.views.show_field_of_question', request.POST.get('field_of_study'))
 
     departments = Department.objects.all()
     field_of_study = FieldOfStudy.objects.all()
@@ -35,6 +50,12 @@ def choose_department(request):
 
 @login_required()
 def show_field_of_question(request, field_of_study_id):
+    """
+    Function which represents charts for the given field of study or field of question or custom test
+    :param request: Page request
+    :param field_of_study_id: Filed of study id
+    :return: Page with charts representing all questions for given field of study and also tests for all fields of question
+    """
     field_of_question = FieldOfQuestion.objects.filter(field_of_study__id=field_of_study_id)
     custom_test = CustomTest.objects.filter(approved_by_admin=True)
     questions_for_field = []
@@ -61,7 +82,6 @@ def show_field_of_question(request, field_of_study_id):
     y_data = [[questions_approved, questions_not_ready, questions_prepared]]
     for item in questions_for_field:
         y_data.append(item.values()[1:])
-    # add questions from custom test
     chart_data = []
     for test in custom_test:
         chart_data.append({'x': x_data, 'y': [len(test.questions.all()), 0, 0], 'extra': extra_series})
@@ -69,14 +89,12 @@ def show_field_of_question(request, field_of_study_id):
     chart_data_0 = {'x': x_data, 'y': y_data[0], 'extra': extra_series}
     chart_data_1 = {'x': x_data, 'y': y_data[1], 'extra': extra_series}
     chart_data_2 = {'x': x_data, 'y': y_data[2], 'extra': extra_series}
-    # chart_data_3 = {'x': x_data, 'y': y_data[3], 'extra': extra_series}
     data = {
         'chart_type': chart_type,
         'chart_data': chart_data,
         'chart_data_0': chart_data_0,
         'chart_data_1': chart_data_1,
         'chart_data_2': chart_data_2,
-        # 'chart_data_3': chart_data_3,
         'extra': {
             'x_is_date': False,
             'x_axis_format': '',
@@ -91,6 +109,11 @@ def show_field_of_question(request, field_of_study_id):
 
 @login_required()
 def work_on_question(request):
+    """
+    Function which handles updating questions with the wrong answers
+    :param request: Page request
+    :return: Page on which user can work on questions by providing wrong answers for random question
+    """
     user = UserProfile.objects.get(id=request.user.id)
     questions_without_answer = Question.objects.filter(approved_by_admin=False, is_prepared=False)
     questions_to_do_id = [question_id.id for question_id in questions_without_answer]
@@ -112,6 +135,14 @@ def work_on_question(request):
 
 @login_required()
 def save_question(request, question_id, accept=False):
+    """
+    Function which handles saving questions or updating
+    :param request: Page request
+    :param question_id: Question ID
+    :param accept: Boolean field representing if the questions was accepted by admin or not. This function is reused in few placed that's why here we have 3
+                    arguments so it can be more generic.
+    :return:
+    """
     user = UserProfile.objects.get(id=request.user.id)
     question = Question.objects.get(id=question_id)
     if request.method == 'POST':
@@ -138,6 +169,11 @@ def save_question(request, question_id, accept=False):
 @login_required()
 @staff_member_required
 def accept_question(request):
+    """
+    Functions handles accepting questions by admin
+    :param request: Page request
+    :return: Page on which administrator can accept questions prepared by users.
+    """
     answered_questions = Question.objects.filter(approved_by_admin=False, is_prepared=True)
     questions_to_do_id = [question_id.id for question_id in answered_questions]
     if questions_to_do_id:
@@ -156,6 +192,11 @@ def accept_question(request):
 @login_required()
 @staff_member_required
 def load_questions_field_of_question(request, field_of_question_id):
+    """
+    Function is responsible for reading a text file with all questions and correct answers and then creating corresponding records in database
+    :param request: Page request
+    :param field_of_question_id: Field of question id
+    """
     field_of_question = FieldOfQuestion.objects.get(id=field_of_question_id)
     file_path = 'media/attachments/Questions/{}.txt'.format(field_of_question.name)
     question_answer = []
@@ -170,12 +211,29 @@ def load_questions_field_of_question(request, field_of_question_id):
     for number, item in enumerate(question_answer):
         if item[0]:
             correct_answer, created = Answer.objects.get_or_create(value=item[1], correct=True)
-            Question.objects.get_or_create(question_number=number + 1, field_of_question=field_of_question, value=item[0], answer_1=correct_answer)
-    pass
+            question_created, success = Question.objects.get_or_create(question_number=number + 1, field_of_question=field_of_question, value=item[0])
+            random_answer = random.randint(1, 4)
+            # Unfortunately this is the only way how I can set random answers
+            if random_answer == 1:
+                question_created.answer_1 = correct_answer
+            elif random_answer == 2:
+                question_created.answer_2 = correct_answer
+            elif random_answer == 3:
+                question_created.answer_3 = correct_answer
+            else:
+                question_created.answer_4 = correct_answer
+            question_created.save()
 
 
 @login_required()
 def start_test(request, field_of_question="all"):
+    """
+    Function handles actual testing. We have question on which we need to provide right answers.
+    :param request: Page request
+    :param field_of_question: Default value is set to all which means that all questions from system will need to be answered this can be also set to custom
+                (custom test) or to any other field of question
+    :return:
+    """
     if field_of_question == "all":
         question_approved = Question.objects.filter(approved_by_admin=True).order_by('id')
     elif field_of_question == "custom":
@@ -191,6 +249,11 @@ def start_test(request, field_of_question="all"):
 
 @login_required()
 def check_answers(request):
+    """
+    Function which checks how many answers were correct
+    :param request: Page request
+    :return: Redirects to the page which displays results
+    """
     answers = []
     correct_answers = 0
     user = request.user
@@ -207,6 +270,13 @@ def check_answers(request):
 
 
 def display_results(request, answers, correct_answers):
+    """
+    Function which is responsible for showing results to the user
+    :param request: Page request
+    :param answers: How many questions were answered by user
+    :param correct_answers:  How many answers were correct
+    :return: Page with chart representing correct answers versus wrong answers
+    """
     color_list = ['#98df8a', '#d62728', '#ffbb78']  # opracowane, nieopracowane, przygotowane
     chart_type = "pieChart"
     x_data = ['Dobrze', 'Zle']
@@ -224,7 +294,6 @@ def display_results(request, answers, correct_answers):
             'jquery_on_ready': False,
             'chart_attr': {'color': color_list, 'labelType': '"percent"'},
             'donut': True,
-            # 'showLabels': True,
         },
     }
     messages.add_message(request, messages.WARNING, "Twoje wyniki!")
@@ -232,6 +301,13 @@ def display_results(request, answers, correct_answers):
 
 
 def check_correct_answer(user_stats_id, question_id, answer_id):
+    """
+    Function which check if answer was correct for the given question. It also creates statistics for the given user.
+    :param user_stats_id: ID of user stats
+    :param question_id: Question id - question which was asked
+    :param answer_id: Answer id - answer provided by user
+    :return: True/False - correct/wrong answer
+    """
     question = Question.objects.get(id=question_id)
     answer = Answer.objects.get(id=answer_id)
     user_stats = Statistic.objects.get(id=user_stats_id)
@@ -247,6 +323,10 @@ def check_correct_answer(user_stats_id, question_id, answer_id):
 
 
 def answer_correct(user_stats_id):
+    """
+    Add correct answer to the users statistics
+    :param user_stats_id: User stat id - represents record in database which was created for the statistic purposes
+    """
     user_stats = Statistic.objects.get(id=user_stats_id)
     user_stats.correct_answers += 1
     user_stats.all_answers += 1
@@ -254,6 +334,10 @@ def answer_correct(user_stats_id):
 
 
 def answer_incorrect(user_stats_id):
+    """
+    Add wrong answer to the users statistics
+    :param user_stats_id: User stat id - represents record in database which was created for the statistic purposes
+    """
     user_stats = Statistic.objects.get(id=user_stats_id)
     user_stats.all_answers += 1
     user_stats.save()
@@ -261,6 +345,11 @@ def answer_incorrect(user_stats_id):
 
 @login_required()
 def create_test(request):
+    """
+    Functions handles custom test creation.
+    :param request: Page request
+    :return: Page on which you can choose what questions should be added to your custom test
+    """
     if request.POST:
         name_of_test = request.user.get_full_name() + " test"
         custom_test, created = CustomTest.objects.get_or_create(name=name_of_test)
@@ -278,6 +367,11 @@ def create_test(request):
 
 @login_required()
 def display_statistics(request):
+    """
+    Function displays statistics in three forms: line chart, multi chart, pie chart
+    :param request: Page request
+    :return: Page with charts representing users statistic
+    """
     user = request.user
     statistics = Statistic.objects.filter(user=user)
     x_data = set()
@@ -352,3 +446,17 @@ def display_statistics(request):
         }
     }
     return render_to_response('mgr/display_statistics.html', data, RequestContext(request))
+
+
+def display_options(request):
+    """
+    Function displaying user options
+    :param request: Page request
+    :return: Page on which we can check for example how many questions were prepared by us and how may was approved by admin
+    """
+    user = request.user
+    question_approved = request.user.question_prepared.filter(approved_by_admin=True)
+    return render_to_response('mgr/display_options.html', {
+        'user': user,
+        'question_approved': question_approved,
+    }, RequestContext(request))

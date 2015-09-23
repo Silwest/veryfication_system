@@ -96,7 +96,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.get_full_name }}<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="{% url 'mgr.views.display_statistics' %}"><span class="glyphicon glyphicon-list"></span> Statystyki</a></li>
-                        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Opcje</a></li>
+                        <li><a href="{% url 'mgr.views.display_options' %}"><span class="glyphicon glyphicon-user"></span> Opcje</a></li>
                         <li><a href="https://github.com/Silwest/veryfication_system/issues"><span class="glyphicon glyphicon-fire"></span> Zgloś bląd</a></li>
                         {% if user.is_staff %}
                             <li><a href="{% url 'mgr.views.accept_question' %}"><span class="glyphicon glyphicon-ok"></span> Akceptuj pytania</a></li>

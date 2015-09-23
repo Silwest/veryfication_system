@@ -6,6 +6,7 @@ urlpatterns = patterns(
     url(r'^$', views.main_page, name='main_page'),
     url(r'^allquestions$', views.all_questions, name='all_questions'),
     url(r'^statistics', views.display_statistics, name='display_statistics'),
+    url(r'^options', views.display_options, name='display_options'),
     url(r'^createtest', views.create_test, name='create_test'),
     url(r'^choosedepartment$', views.choose_department, name='choose_department'),
     url(r'^showfieldofquestion/(\d+)$', views.show_field_of_question, name='show_field_of_questions'),

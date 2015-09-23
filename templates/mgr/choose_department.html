@@ -13,8 +13,8 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="kierunek">Wybierz kierunek</label>
-                <select name="kierunek" id="kierunek" class="form-control">
+                <label for="field_of_study">Wybierz kierunek</label>
+                <select name="field_of_study" id="field_of_study" class="form-control">
                     {% for kierunek in field_of_study %}
                         <option value="{{ kierunek.id }}">{{ kierunek }}</option>
                     {% endfor %}

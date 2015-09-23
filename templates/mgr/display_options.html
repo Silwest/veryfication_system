@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block head-content %}
+    <div class="row">
+        <div class="jumbotron">
+            <h1>Informacje na temat Twojego konta!</h1>
+
+            <div class="input-group input-group-lg col-md-3 col-lg-offset-4" style="margin-bottom: 10px">
+                <span class="input-group-addon" id="sizing-addon1">Login</span>
+                <input type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon1" value="{{ user.username }}">
+            </div>
+            <div class="input-group input-group-lg col-md-3 col-lg-offset-4" style="margin-bottom: 10px">
+                <span class="input-group-addon" id="sizing-addon1">Imię</span>
+                <input type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon1" value="{{ user.first_name }}">
+            </div>
+            <div class="input-group input-group-lg col-md-3 col-lg-offset-4" style="margin-bottom: 10px">
+                <span class="input-group-addon" id="sizing-addon1">Nazwisko</span>
+                <input type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon1" value="{{ user.last_name }}">
+            </div>
+            <h3>Ilośc pytań przygotowanych: <span class="label label-default">{{ user.question_prepared.all|length }}</span></h3>
+            <h3>Ilośc pytań zaakceptowanych: <span class="label label-success">{{ question_approved|length }}</span></h3>
+            <p class="pull-left"><a class="btn btn-danger btn-lg" href="#" role="button"><span class="glyphicon glyphicon-backward"></span> Cofnij</a></p>
+            <p class="pull-right"><a class="btn btn-info btn-lg" href="#" role="button"><span class="glyphicon glyphicon-ok"></span> Zapisz</a></p>
+        </div>
+
+    </div>
+{% endblock %}

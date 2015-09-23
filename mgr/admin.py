@@ -28,7 +28,7 @@ admin.site.register(Question, QuestionAdmin)
 
 
 class UserProfileAdmin(admin.ModelAdmin):
-    filter_horizontal = ["question_prepared"]
+    filter_horizontal = ["question_prepared", "groups"]
 admin.site.register(UserProfile, UserProfileAdmin)
 
 
